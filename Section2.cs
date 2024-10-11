@@ -11,7 +11,12 @@ namespace dinhthiquynhnhu_31231025829
             //Question_02();
             //Question_03();
             //Question_04();
-            Question_05();
+            //Question_05();
+            Question_06();
+            //Question_07();
+            //Question_08();
+            //Question_09();
+            //Question_10();
             //Console.WriteLine("Please press any key to stop")
             //Console.ReadKey();
 
@@ -79,24 +84,43 @@ namespace dinhthiquynhnhu_31231025829
                 double Fahrenheit2 = double.Parse(Console.ReadLine());
                 double Celsius2 = Fahrenheit2 / 33.8;
                 Console.WriteLine($"{Fahrenheit2} Fahrenheit is equal to {Celsius2} Celsius.");
+            }
 
-        }
+            /// <summary>
+            ///   6. to find the Size of data types.
+            /// </summary>
             public static void Question_06()
             {
 
             }
+
+            /// <summary>
+            ///   7. to Print ASCII Value (tip: read character, print number of this char).
+            /// </summary>
             public static void Question_07()
             {
 
             }
+
+            /// <summary>
+            ///   8. to Calculate Area of Circle.
+            /// </summary>
             public static void Question_08()
             {
 
             }
+
+            /// <summary>
+            ///   9. to Calculate Area of Square.
+            /// </summary>
             public static void Question_09()
             {
 
             }
+
+            /// <summary>
+            ///   10. to convert days to years, weeks and days.
+            /// </summary>
             public static void Question_10()
             {
 
