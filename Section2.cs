@@ -12,11 +12,11 @@ namespace dinhthiquynhnhu_31231025829
             //Question_03();
             //Question_04();
             //Question_05();
-            Question_06();
+            //Question_06();
             //Question_07();
             //Question_08();
             //Question_09();
-            //Question_10();
+            Question_10();
             //Console.WriteLine("Please press any key to stop")
             //Console.ReadKey();
 
@@ -91,7 +91,14 @@ namespace dinhthiquynhnhu_31231025829
             /// </summary>
             public static void Question_06()
             {
-
+                int x = sizeof(int);
+                Console.WriteLine($"Size of int: {x} bytes");
+                int y = sizeof(double);
+                Console.WriteLine($"Size of double: {y} bytes");
+                int z = sizeof(char);
+                Console.WriteLine($"Size of char: {z} bytes");
+                int t = sizeof(bool);
+                Console.WriteLine($"Size of bool: {t} byte");
             }
 
             /// <summary>
@@ -99,7 +106,11 @@ namespace dinhthiquynhnhu_31231025829
             /// </summary>
             public static void Question_07()
             {
-
+                Console.Write($"Enter a character: ");
+                char inputChar = Console.ReadKey().KeyChar;
+                int ASCIIValue = (int)inputChar;
+                Console.WriteLine();
+                Console.WriteLine($"The ASCII Value of {inputChar} is: {ASCIIValue}.");
             }
 
             /// <summary>
@@ -107,7 +118,10 @@ namespace dinhthiquynhnhu_31231025829
             /// </summary>
             public static void Question_08()
             {
-
+                Console.Write("Enter the radius of the Circle: ");
+                double radius = Convert.ToDouble(Console.ReadLine());
+                double areaCircle = Math.PI * radius * radius; 
+                Console.WriteLine($"The Area of the Circle with radius {radius} is: {areaCircle:F3}.");
             }
 
             /// <summary>
@@ -115,7 +129,10 @@ namespace dinhthiquynhnhu_31231025829
             /// </summary>
             public static void Question_09()
             {
-
+                Console.Write("Enter the side of the Square: ");
+                double side = Convert.ToDouble(Console.ReadLine());
+                double areaSquare = side * side;
+                Console.WriteLine($"The Area of Square with side {side} is: {areaSquare:F3}.");
             }
 
             /// <summary>
@@ -123,7 +140,13 @@ namespace dinhthiquynhnhu_31231025829
             /// </summary>
             public static void Question_10()
             {
-
+                Console.Write("Enter the number of days: ");
+                int days = int.Parse(Console.ReadLine());
+                int years = days / 365;
+                int day_w = days % 365;
+                int weeks = day_w / 7;
+                int d = day_w % 7;
+                Console.WriteLine($"{days} days is converted to {years} years, {weeks} weeks, and {d} days.");
             }
     }
 }
