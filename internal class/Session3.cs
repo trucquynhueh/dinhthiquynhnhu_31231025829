@@ -3,11 +3,11 @@ namespace internal_class
 {
     internal class Session3
     {
-        public static void Main()
+        public static void Main1()
         {
-            //Exercise_01();
+            Exercise_01();
             //Exercise_02();
-            Exercise_03();
+            //Exercise_03();
         }
 
         public static void Exercise_01()
