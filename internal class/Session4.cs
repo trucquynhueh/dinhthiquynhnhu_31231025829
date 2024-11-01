@@ -5,7 +5,7 @@ namespace internal_class
 {
     internal class Session4
     {
-        public static void Main()
+        public static void Main1()
         {
             //ExerciseOperators_02();
             //ExerciseOperators_03();
