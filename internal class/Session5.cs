@@ -10,7 +10,7 @@ namespace internal_class
 {
     internal class Session5
     {
-        public static void Main()
+        public static void Main1()
         {
             //Question_01();
             //Question_02();
