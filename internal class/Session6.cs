@@ -34,6 +34,9 @@ namespace internal_class
                 Console.WriteLine($"So {SoCanTim} khong co trong mang.");
             else
                 Console.WriteLine($"So {SoCanTim} xuat hien tai vi tri {position} trong mang.");
+            Sapxep(a);
+            swap(a,b);
+            InMang(a);
         }
 
         static void nhapmabangCom(int[]a)
@@ -81,7 +84,22 @@ namespace internal_class
                 return -1;
         }
 
+        static void Sapxep(int[]a)
+        {
+            for (int i = 0; i < a.Length - 1;i++)
+                for (int j = 0;j < a.Length - i - 1;j++)
+                {
+                    if (a[j] > a[j+1])
+                        swap(ref a[j], ref a[j+1]);
+                }
+        }
 
+        static void swap(ref int a, ref int b)
+        {
+            int t = a;
+            a = b;
+            b = t;
+        }
 
 
 
