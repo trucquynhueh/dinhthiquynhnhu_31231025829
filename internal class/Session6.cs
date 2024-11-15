@@ -8,7 +8,7 @@ namespace internal_class
 {
     internal class Session6
     {
-        public static void Main(string[] args)
+        public static void Main2(string[] args)
         {
             Exercise_01();
             //Exercise_02();
@@ -35,7 +35,6 @@ namespace internal_class
             else
                 Console.WriteLine($"So {SoCanTim} xuat hien tai vi tri {position} trong mang.");
             Sapxep(a);
-            swap(a,b);
             InMang(a);
         }
 
