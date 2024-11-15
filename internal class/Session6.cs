@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +10,14 @@ namespace internal_class
     {
         public static void Main(string[] args)
         {
-            Exercise_01_02();
+            Exercise_01();
+            //Exercise_02();
             //Exercise_03();
             //Exercise_04();
             //Exercise_05();
-            //Exercise_06();
         }
 
-        public static void Exercise_01_02()
+        public static void Exercise_01()
         //Enter item values for this array and Print the array to screen.
         {
             Console.Write("Nhap vao so phan tu cua mang: ");
@@ -26,6 +26,14 @@ namespace internal_class
             //nhapmabangCom(a);
             nhapmaNgaunhien(a);
             InMang(a);
+            sum(a);
+            Console.Write("Nhap vao so can tim: ");
+            int SoCanTim = int.Parse(Console.ReadLine());
+            int position = LinearSearch(a, SoCanTim);
+            if (position == -1)
+                Console.WriteLine($"So {SoCanTim} khong co trong mang.");
+            else
+                Console.WriteLine($"So {SoCanTim} xuat hien tai vi tri {position} trong mang.");
         }
 
         static void nhapmabangCom(int[]a)
@@ -40,36 +48,49 @@ namespace internal_class
 
         static void nhapmaNgaunhien(int[]a) 
         {
-            double sum = 0.0;
-            double average = 0.0 ;
             Random random = new Random();
             for (int i = 0;i < a.Length;i++)
             {
                 a[i] = random.Next(100); //random cac phan tu co value < 100, tuc la value trong khoang 0 den 99.
-                sum += a[i];
-                average = (sum)/a.Length;
             }
-            Console.WriteLine($"Tong cac phan tu cua mang la: {sum}");
-            Console.WriteLine($"Trung binh cac phan tu cua mang la: {average}");
         }
         static void InMang(int[]a) 
         {
-            foreach (int item in a)
+            for (int i = 0;i < a.Length;i++)
             {
-                Console.Write(item + " ");
-                double sum = 0.0;
-                double average = 0.0;
+                Console.Write(a[i] + " ");
             }
+            Console.WriteLine();
         }
 
         static void sum(int[]a)
         { 
-            foreach (int item in a)}
+            int sum = 0;
+            for (int i = 0;i < a.Length;i++)
+            sum +=a[i];
+            Console.WriteLine($"Tong cua cac phan tu cua mang la: {sum}");
+            double average = (double) sum / a.Length;
+            Console.WriteLine($"Trung binh cac phan tu cua mang la: {average}");
+        }
+
+        static int LinearSearch(int[]a, int SoCanTim)
+        {
+            for (int i = 0;i < a.Length;i++)
+                if (a[i] == SoCanTim)
+                    return i;
+                return -1;
+        }
+
+
+
+
+
+
 
         public static void Exercise_03()
-        //Write a function that increase each item of the array by adding it with 2.
+        //to find the maximum and minimum value of an array.
         {
-
+            
         }
 
         public static void Exercise_04()
