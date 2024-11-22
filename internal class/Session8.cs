@@ -1,8 +1,5 @@
 
-using Microsoft.VisualBasic;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
+using System.Globalization;
 
 namespace internal_class
 {
@@ -18,6 +15,7 @@ namespace internal_class
             Console.WriteLine();
             printReverse(s1);
             Console.WriteLine($"Tong cac tu cua chuoi la: {CountWords(s1)}");
+            CountCharactersType(s1);
 
             //to separate individual characters from a string.
             static void print(string s)
@@ -75,7 +73,17 @@ namespace internal_class
             //to compare two strings without using a string library functions.
 
             //to count the number of alphabets, digits and special characters in a string.
-            
+            static void CountCharactersType(string s)
+            {
+                int alphabets = 0, digits = 0, specialChars = 0;
+                foreach (char c in s)
+                {
+                    if (Char.IsLetter(c)) alphabets++;
+                    else if (Char.IsDigit(c)) digits++;
+                    else specialChars++;
+                }
+                Console.WriteLine($"Chu cai: {alphabets}, chu so: {digits}, ky tu dac biet: {specialChars}");
+            }
             //to count the number of vowels or consonants in a string.
 
             //to check whether a given substring is present in the given string.
