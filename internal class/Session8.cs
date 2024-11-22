@@ -1,4 +1,9 @@
-﻿
+
+using Microsoft.VisualBasic;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Collections.Generic;
+using System.Data.SqlTypes;
+
 namespace internal_class
 {
     internal class Session8
@@ -42,7 +47,7 @@ namespace internal_class
             }
 
             //to count the total number of words in a string.
-            static void CountWords(string s)
+            static int CountWords(string s)
             {
                 int wordCount = 0;
                 bool inWord = false;
@@ -66,9 +71,23 @@ namespace internal_class
 
                 return wordCount;
             }
-        
 
             //to compare two strings without using a string library functions.
+
+            //to count the number of alphabets, digits and special characters in a string.
+            
+            //to count the number of vowels or consonants in a string.
+
+            //to check whether a given substring is present in the given string.
+
+            //to search for the position of a substring within a string.
+
+            //to check whether a character is an alphabet and not and if so, check for the case.
+
+            //to find the number of times a substring appears in a given string.
+
+            //to insert a substring before the first occurrence of a string.
+
         }
     }
 }
