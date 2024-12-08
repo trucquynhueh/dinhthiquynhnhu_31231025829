@@ -1,0 +1,109 @@
+using System;
+
+namespace QuanLySinhVienUEH
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Vòng lặp vô hạn để chương trình luôn hiển thị menu
+            while (true)
+            {
+                ShowMenu(); // Gọi hàm hiển thị menu
+
+                Console.Write("\nChọn một tùy chọn (1-6): "); // Nhập lựa chọn từ người dùng
+                string choice = Console.ReadLine();
+
+                // Kiểm tra lựa chọn của người dùng và gọi hàm tương ứng
+                switch (choice)
+                {
+                    case "1":
+                        ThemSinhVien(); // Gọi hàm thêm sinh viên
+                        break;
+
+                    case "2":
+                        XoaSinhVien(); // Gọi hàm xóa sinh viên
+                        break;
+
+                    case "3":
+                        SuaSinhVien(); // Gọi hàm sửa thông tin sinh viên
+                        break;
+
+                    case "4":
+                        XemSinhVien(); // Gọi hàm tìm kiếm/xem thông tin sinh viên
+                        break;
+
+                    case "5":
+                        XuatDanhSachHocBong(); // Xuất danh sách sinh viên xét học bổng
+                        break;
+
+                    case "6":
+                        Console.Clear();
+                        Console.WriteLine("Chúc bạn học tốt!");
+                        Environment.Exit(0);
+                        break;
+
+                    default:
+                        Console.WriteLine("Lựa chọn không hợp lệ, vui lòng thử lại!");
+                        break;
+                }
+
+                // Chờ người dùng nhấn phím để quay lại menu
+                Console.WriteLine("\nNhấn phím bất kỳ để quay lại menu...");
+                Console.ReadKey();
+            }
+        }
+
+        // Hàm hiển thị menu
+        static void ShowMenu()
+        {
+            Console.Clear(); // Xóa màn hình console để menu luôn được hiển thị mới
+            Console.WriteLine("===============================================");
+            Console.WriteLine("            QUẢN LÝ SINH VIÊN UEH"); // Tiêu đề menu
+            Console.WriteLine("===============================================");
+            Console.WriteLine("1. Thêm Sinh Viên"); // Lựa chọn 1: Thêm sinh viên
+            Console.WriteLine("2. Xóa Sinh Viên"); // Lựa chọn 2: Xóa sinh viên
+            Console.WriteLine("3. Sửa Thông Tin Sinh Viên"); // Lựa chọn 3: Sửa thông tin
+            Console.WriteLine("4. Tìm Kiếm/Xem Thông Tin Sinh Viên"); // Lựa chọn 4: Tìm kiếm/xem thông tin sinh viên (hiện đểm thang 10, chuyển sang thang 4)
+            Console.WriteLine("5. Danh Sách Sinh Viên Xét Học Bổng"); // Lựa chọn 5: Danh sách sinh viên xét học bổng (hiện sinh viên đủ điều kiện xét, cả được học bổng và không được học bổng)
+            Console.WriteLine("6. Thoát Chương Trình");
+            Console.WriteLine("===============================================");
+        }
+
+        // Hàm xử lý chức năng thêm sinh viên
+        static void ThemSinhVien()
+        {
+            Console.Clear();
+            Console.WriteLine(">>> Chức năng Thêm Sinh Viên đang được cập nhật <<<");
+        }
+
+        // Hàm xử lý chức năng xóa sinh viên
+        static void XoaSinhVien()
+        {
+            Console.Clear();
+            Console.WriteLine(">>> Chức năng Xóa Sinh Viên đang được cập nhật <<<");
+        }
+
+        // Hàm xử lý chức năng sửa thông tin sinh viên
+        static void SuaSinhVien()
+        {
+            Console.Clear();
+            Console.WriteLine(">>> Chức năng Sửa Thông Tin Sinh Viên đang được cập nhật <<<");
+        }
+
+
+        // Hàm xử lý chức năng tìm kiếm/xem thông tin sinh viên
+        static void XemSinhVien()
+        {
+            Console.Clear();
+            Console.WriteLine(">>> Chức năng Tìm Kiếm/Xem Thông Tin Sinh Viên đang được cập nhật <<<");
+        }
+
+        // Hàm xử lý chức năng xuất danh sách sinh viên xét học bổng
+        static void XuatDanhSachHocBong()
+        {
+            Console.Clear();
+            Console.WriteLine(">>> Chức năng Xuất Danh Sách Sinh Viên Xét Học Bổng đang được cập nhật <<<");
+        }
+    }
+}
