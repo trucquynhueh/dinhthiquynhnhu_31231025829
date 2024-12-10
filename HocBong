@@ -1,0 +1,131 @@
+namespace QuanLySinhVienUEH
+{
+    public class SinhVien
+    {
+        public string MaSV { get; set; } // Mã sinh viên, kiểu chuỗi.
+        public string TenSV { get; set; } // Tên sinh viên, kiểu chuỗi.
+        public string Lop { get; set; } // Lớp sinh viên, kiểu chuỗi.
+        public string Khoa { get; set; } // Khóa học của sinh viên, kiểu chuỗi.
+        public float DiemHocTap { get; set; } // Điểm học tập (thang 4.0), kiểu số thực.
+        public int DiemRenLuyen { get; set; } // Điểm rèn luyện, kiểu số nguyên.
+        public int SoNganhHoc { get; set; } // Số ngành mà sinh viên đang học, kiểu số nguyên.
+
+        // Hàm khởi tạo để gán giá trị cho các thuộc tính khi tạo đối tượng SinhVien.
+        public SinhVien(string maSV, string tenSV, string lop, string khoa, float diemHocTap, int diemRenLuyen, int soNganhHoc)
+        {
+            MaSV = maSV; // Gán mã sinh viên.
+            TenSV = tenSV; // Gán tên sinh viên.
+            Lop = lop; // Gán lớp.
+            Khoa = khoa; // Gán khóa học.
+            DiemHocTap = diemHocTap; // Gán điểm học tập.
+            DiemRenLuyen = diemRenLuyen; // Gán điểm rèn luyện.
+            SoNganhHoc = soNganhHoc; // Gán số ngành học.
+        }
+    }
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            List<SinhVien> danhSachSV = new List<SinhVien>(); 
+            // Tạo danh sách sinh viên trống để lưu thông tin sinh viên.
+
+            int soLuongSV; 
+            // Khai báo biến để lưu số lượng sinh viên nhập vào.
+
+            Console.Write("Nhập số lượng sinh viên: ");
+            soLuongSV = int.Parse(Console.ReadLine()); 
+            // Nhập từ bàn phím số lượng sinh viên và chuyển đổi sang số nguyên.
+
+            // Vòng lặp để nhập thông tin cho từng sinh viên.
+            for (int i = 0; i < soLuongSV; i++)
+            {
+                Console.WriteLine($"Nhập thông tin cho sinh viên thứ {i + 1}:");
+                Console.Write("Mã sinh viên: ");
+                string maSV = Console.ReadLine(); 
+                // Nhập mã sinh viên từ bàn phím.
+
+                Console.Write("Tên sinh viên: ");
+                string tenSV = Console.ReadLine(); 
+                // Nhập tên sinh viên từ bàn phím.
+
+                Console.Write("Lớp: ");
+                string lop = Console.ReadLine(); 
+                // Nhập lớp từ bàn phím.
+
+                Console.Write("Khóa (K47, K48, K49, K50): ");
+                string khoa = Console.ReadLine(); 
+                // Nhập khóa từ bàn phím.
+
+                Console.Write("Điểm học tập (thang 10): ");
+                float diemHocTap = float.Parse(Console.ReadLine()); 
+                // Nhập điểm học tập (thang 10) từ bàn phím.
+
+                diemHocTap = ChuyenDiemSangThang4(diemHocTap); 
+                // Chuyển điểm từ thang 10 sang thang 4 bằng hàm `ChuyenDiemSangThang4`.
+
+                Console.Write("Điểm rèn luyện: ");
+                int diemRenLuyen = int.Parse(Console.ReadLine()); 
+                // Nhập điểm rèn luyện từ bàn phím.
+
+                Console.Write("Số ngành học (1 hoặc 2): ");
+                int soNganhHoc = int.Parse(Console.ReadLine()); 
+                // Nhập số ngành học (1 hoặc 2) từ bàn phím.
+
+                danhSachSV.Add(new SinhVien(maSV, tenSV, lop, khoa, diemHocTap, diemRenLuyen, soNganhHoc)); 
+                // Tạo đối tượng `SinhVien` với thông tin đã nhập và thêm vào danh sách.
+            }
+
+            XetHocBong(danhSachSV); 
+            // Gọi hàm `XetHocBong` để xử lý và xuất kết quả.
+        }
+        static float ChuyenDiemSangThang4(float diem10)
+        {
+            if (diem10 >= 9)
+                return 4.0f; // Điểm >= 9 trên thang 10 chuyển thành 4.0 trên thang 4.
+            else if (diem10 >= 8)
+                return 3.5f; // Tương tự, với các mức điểm khác.
+            else if (diem10 >= 7)
+                return 3.0f;
+            else if (diem10 >= 6)
+                return 2.5f;
+            else if (diem10 >= 5)
+                return 2.0f;
+            else
+                return 1.0f; 
+            // Điểm dưới 5 trên thang 10 thì là 1.0 trên thang 4.
+        }
+    static void XetHocBong(List<SinhVien> danhSachSV)
+        {
+            // Sắp xếp danh sách theo các tiêu chí: điểm học tập, điểm rèn luyện, số ngành học.
+            danhSachSV.Sort((a, b) =>
+            {
+                if (b.DiemHocTap != a.DiemHocTap)
+                    return b.DiemHocTap.CompareTo(a.DiemHocTap); 
+                    // So sánh điểm học tập, ưu tiên điểm cao hơn.
+                if (b.DiemRenLuyen != a.DiemRenLuyen)
+                    return b.DiemRenLuyen.CompareTo(a.DiemRenLuyen); 
+                    // Nếu điểm học tập bằng nhau, so tiếp điểm rèn luyện.
+                return b.SoNganhHoc.CompareTo(a.SoNganhHoc); 
+                // Nếu cả hai bằng nhau, ưu tiên số ngành học nhiều hơn.
+            });
+
+            using (StreamWriter writer = new StreamWriter("ketQuaHocBong.txt")) 
+            // Mở (hoặc tạo) tệp để ghi kết quả.
+            {
+                writer.WriteLine("Kết quả xét học bổng:");
+
+                foreach (var sv in danhSachSV) 
+                {
+                    if (sv.DiemHocTap >= 3.75f && sv.DiemRenLuyen >= 85) 
+                    {
+                        writer.WriteLine($"{sv.MaSV} - {sv.TenSV} - Lớp: {sv.Lop} - Khoa: {sv.Khoa} - Điểm HT: {sv.DiemHocTap} - Điểm RL: {sv.DiemRenLuyen} - Ngành: {sv.SoNganhHoc}");
+                        // Ghi thông tin sinh viên đủ điều kiện vào tệp.
+                    }
+                }
+            }
+
+            Console.WriteLine("\nKết quả đã được xuất vào tệp 'ketQuaHocBong.txt'.");
+            // Thông báo xuất kết quả thành công.
+        }
+    }
+}
