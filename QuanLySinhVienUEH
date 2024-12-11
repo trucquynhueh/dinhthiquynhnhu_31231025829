@@ -1,109 +1,343 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace QuanLySinhVienUEH
+namespace QuanLySinhVienUeh
 {
-    class Program
+    internal class Function
     {
-        static void Main(string[] args)
+
+        class SinhVien
         {
-            // Vòng lặp vô hạn để chương trình luôn hiển thị menu
-            while (true)
+            public string MSSV { get; set; }
+            public string LopSV { get; set; }
+            public string HoTen { get; set; }
+            public string NgaySinh { get; set; }
+            public string NoiSinh { get; set; }
+            public string GioiTinh { get; set; }
+            public double DTB { get; set; }
+            public int DRL { get; set; }
+
+            public override string ToString()
             {
-                ShowMenu(); // Gọi hàm hiển thị menu
+                //// Định nghĩa cách đối tượng sinh viên sẽ được chuyển thành chuỗi, sử dụng dấu "|" để phân tách các trường
+                return $"{MSSV}|{LopSV}|{HoTen}|{NgaySinh}|{NoiSinh}|{GioiTinh}|{DTB}|{DRL}";
+            }
 
-                Console.Write("\nChon mot tuy chon (1-6): "); // Nhập lựa chọn từ người dùng
-                string choice = Console.ReadLine();
 
-                // Kiểm tra lựa chọn của người dùng và gọi hàm tương ứng
-                switch (choice)
+        }
+
+        class Program
+        {
+            static string filePath = "SinhVien.txt"; // Đường dẫn file chứa dữ liệu sinh viên
+
+            static void Main(string[] args)
+            {
+                while (true)
                 {
-                    case "1":
-                        ThemSinhVien(); // Gọi hàm thêm sinh viên
-                        break;
+                    ShowMenu();
+                    Console.Write("\nChọn một tùy chọn (1-6): ");
+                    string choice = Console.ReadLine();
 
-                    case "2":
-                        XoaSinhVien(); // Gọi hàm xóa sinh viên
-                        break;
+                    switch (choice)
+                    {
+                        case "1":
+                            ThemSinhVien();
+                            break;
 
-                    case "3":
-                        SuaSinhVien(); // Gọi hàm sửa thông tin sinh viên
-                        break;
+                        case "2":
+                            XoaSinhVien();
+                            break;
 
-                    case "4":
-                        XemSinhVien(); // Gọi hàm tìm kiếm/xem thông tin sinh viên
-                        break;
+                        case "3":
+                            SuaSinhVien();
+                            break;
 
-                    case "5":
-                        XuatDanhSachHocBong(); // Xuất danh sách sinh viên xét học bổng
-                        break;
+                        case "4":
+                            XemSinhVien();
+                            break;
 
-                    case "6":
-                        Console.Clear();
-                        Console.WriteLine("Chuc ban hoc tot!");
-                        Environment.Exit(0);
-                        break;
+                        case "5":
+                            XuatDanhSachHocBong();
+                            break;
 
-                    default:
-                        Console.WriteLine("Lua chon khong hop le, vui long thu lai!");
-                        break;
+                        case "6":
+                            Console.Clear();
+                            Console.WriteLine("Chúc bạn học tốt!");
+                            Environment.Exit(0);
+                            break;
+
+                        default:
+                            Console.WriteLine("Lựa chọn không hợp lệ, vui lòng thử lại!");
+                            break;
+                    }
+
+                    Console.WriteLine("\nNhấn phím bất kỳ để quay lại menu...");
+                    Console.ReadKey();
+                }
+            }
+
+            static void ShowMenu()
+            {
+                Console.Clear();
+                Console.WriteLine("===============================================");
+                Console.WriteLine("            QUẢN LÝ SINH VIÊN UEH");
+                Console.WriteLine("===============================================");
+                Console.WriteLine("1. Thêm Sinh Viên");
+                Console.WriteLine("2. Xóa Sinh Viên");
+                Console.WriteLine("3. Sửa Thông Tin Sinh Viên");
+                Console.WriteLine("4. Tìm Kiếm/Xem Thông Tin Sinh Viên");
+                Console.WriteLine("5. Danh Sách Sinh Viên Xét Học Bổng");
+                Console.WriteLine("6. Thoát Chương Trình");
+                Console.WriteLine("===============================================");
+            }
+
+            static List<SinhVien> DocDanhSachSinhVien()
+            {
+                List<SinhVien> sinhViens = new List<SinhVien>();
+                if (File.Exists(filePath))
+                {
+                    ///File.ReadAllLines để đọc tất cả các dòng trong file txt.
+                
+                    var lines = File.ReadAllLines(filePath);
+
+                    // Bỏ qua dòng tiêu đề (dòng đầu tiên)
+                    for (int i = 1; i < lines.Length; i++)
+                    {
+                        var line = lines[i];
+                        try
+                        {
+                            var fields = line.Split('|');
+                            if (fields.Length != 8)
+                                continue; // Bỏ qua dòng không đủ 8 trường dữ liệu
+
+                            var sinhVien = new SinhVien
+                            {
+                                MSSV = fields[0],
+                                LopSV = fields[1],
+                                HoTen = fields[2],
+                                NgaySinh = fields[3],
+                                NoiSinh = fields[4],
+                                GioiTinh = fields[5],
+                                DTB = double.Parse(fields[6]),
+                                DRL = int.Parse(fields[7])
+                            };
+                            sinhViens.Add(sinhVien);
+                        }
+                        catch (FormatException ex)
+                        {
+                            Console.WriteLine($"Lỗi định dạng dòng: {line}. Bỏ qua dòng này. Chi tiết lỗi: {ex.Message}");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("File dữ liệu không tồn tại.");
+                }
+                return sinhViens;
+            }
+
+            static void LuuDanhSachSinhVien(List<SinhVien> sinhViens)
+            {
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    // Optionally write headers if not present
+                    writer.WriteLine("MSSV|LopSV|HoTen|NgaySinh|NoiSinh|GioiTinh|DTB|DRL");
+                    foreach (var sv in sinhViens)
+                    {
+                        writer.WriteLine(sv.ToString());
+                    }
+                }
+            }
+
+            static void ThemSinhVien()
+            {
+                Console.Clear();
+                Console.WriteLine("=== Thêm Sinh Viên ===");
+
+                Console.Write("MSSV: ");
+                string mssv = Console.ReadLine();
+                Console.Write("Lớp Sinh Viên: ");
+                string lopSV = Console.ReadLine();
+                Console.Write("Họ Tên: ");
+                string hoTen = Console.ReadLine();
+                Console.Write("Ngày Sinh (yyyy-MM-dd): ");
+                string ngaySinh = Console.ReadLine();
+                Console.Write("Nơi Sinh: ");
+                string noiSinh = Console.ReadLine();
+                Console.Write("Giới Tính: ");
+                string gioiTinh = Console.ReadLine();
+
+                // Validate input for DTB
+                double dtb;
+                Console.Write("ĐTB: ");
+                while (!double.TryParse(Console.ReadLine(), out dtb))
+                {
+                    Console.Write("Điểm Trung Bình không hợp lệ, vui lòng nhập lại: ");
                 }
 
-                // Chờ người dùng nhấn phím để quay lại menu
-                Console.WriteLine("\nNhan phim bat ky de quay lai menu...");
-                Console.ReadKey();
+                // Validate input for DRL
+                int dRL;
+                Console.Write("DRL: ");
+                while (!int.TryParse(Console.ReadLine(), out dRL))
+                {
+                    Console.Write("Điểm Rèn Luyện không hợp lệ, vui lòng nhập lại: ");
+                }
+
+                SinhVien sinhVien = new SinhVien
+                {
+                    MSSV = mssv,
+                    LopSV = lopSV,
+                    HoTen = hoTen,
+                    NgaySinh = ngaySinh,
+                    NoiSinh = noiSinh,
+                    GioiTinh = gioiTinh,
+                    DTB = dtb,
+                    DRL = dRL
+                };
+
+                var sinhViens = DocDanhSachSinhVien();
+                sinhViens.Add(sinhVien);
+                LuuDanhSachSinhVien(sinhViens);
+
+                Console.WriteLine("Sinh viên đã được thêm thành công!");
             }
-        }
 
-        // Hàm hiển thị menu
-        static void ShowMenu()
-        {
-            Console.Clear(); // Xóa màn hình console để menu luôn được hiển thị mới
-            Console.WriteLine("===============================================");
-            Console.WriteLine("            QUAN LY SINH VIEN UEH"); // Tiêu đề menu
-            Console.WriteLine("===============================================");
-            Console.WriteLine("1. Them Sinh Vien"); // Lựa chọn 1: Thêm sinh viên
-            Console.WriteLine("2. Xoa Sinh Vien"); // Lựa chọn 2: Xóa sinh viên
-            Console.WriteLine("3. Sua Thong Tin Sinh Vien"); // Lựa chọn 3: Sửa thông tin
-            Console.WriteLine("4. Tim Kiem/Xem Thong Tin Sinh Vien"); // Lựa chọn 4: Tìm kiếm/xem thông tin sinh viên (hiện đểm thang 10, chuyển sang thang 4)
-            Console.WriteLine("5. Danh Sach Sinh Vien Xet Hoc Bong"); // Lựa chọn 5: Danh sách sinh viên xét học bổng (hiện sinh viên đủ điều kiện xét, cả được học bổng và không được học bổng)
-            Console.WriteLine("6. Thoat Chuong Trinh");
-            Console.WriteLine("===============================================");
-        }
+            static void XoaSinhVien()
+            {
+                Console.Clear();
+                Console.WriteLine("=== Xóa Sinh Viên ===");
 
-        // Hàm xử lý chức năng thêm sinh viên
-        static void ThemSinhVien()
-        {
-            Console.Clear();
-            Console.WriteLine(">>> Chuc nang Them Sinh Vien dang duoc cap nhat <<<");
-        }
+                Console.Write("Nhập MSSV của sinh viên cần xóa: ");
+                string mssv = Console.ReadLine();
 
-        // Hàm xử lý chức năng xóa sinh viên
-        static void XoaSinhVien()
-        {
-            Console.Clear();
-            Console.WriteLine(">>> Chuc nang Xoa Sinh Vien dang duoc cap nhat <<<");
-        }
+                var sinhViens = DocDanhSachSinhVien();
+                var sinhVienToDelete = sinhViens.Find(sv => sv.MSSV == mssv);
 
-        // Hàm xử lý chức năng sửa thông tin sinh viên
-        static void SuaSinhVien()
-        {
-            Console.Clear();
-            Console.WriteLine(">>> Chuc nang Sua Thong Tin Sinh Vien dang duoc cap nhat <<<");
-        }
+                if (sinhVienToDelete != null)
+                {
+                    sinhViens.Remove(sinhVienToDelete);
+                    LuuDanhSachSinhVien(sinhViens);
+                    Console.WriteLine("Sinh viên đã được xóa thành công!");
+                }
+                else
+                {
+                    Console.WriteLine("Không tìm thấy sinh viên với MSSV này.");
+                }
+            }
 
+            static void SuaSinhVien()
+            {
+                Console.Clear();
+                Console.WriteLine(">>> Sửa Thông Tin Sinh Viên <<<");
 
-        // Hàm xử lý chức năng tìm kiếm/xem thông tin sinh viên
-        static void XemSinhVien()
-        {
-            Console.Clear();
-            Console.WriteLine(">>> Chuc nang Tim Kiem/Xem Thong Tin Sinh Vien dang duoc cap nhat <<<");
-        }
+                Console.Write("Nhập MSSV của sinh viên cần sửa: ");
+                string mssv = Console.ReadLine();
 
-        // Hàm xử lý chức năng xuất danh sách sinh viên xét học bổng
-        static void XuatDanhSachHocBong()
-        {
-            Console.Clear();
-            Console.WriteLine(">>> Chuc nang Xuat Danh Sach Sinh Vien Xet Hoc Bong dang duoc cap nhat <<<");
+                var sinhViens = DocDanhSachSinhVien();
+                var sinhVienToUpdate = sinhViens.Find(sv => sv.MSSV == mssv);
+
+                if (sinhVienToUpdate != null)
+                {
+                    Console.Write("Lớp Sinh Viên: ");
+                    sinhVienToUpdate.LopSV = Console.ReadLine();
+                    Console.Write("Họ Tên: ");
+                    sinhVienToUpdate.HoTen = Console.ReadLine();
+                    Console.Write("Ngày Sinh (yyyy-MM-dd): ");
+                    sinhVienToUpdate.NgaySinh = Console.ReadLine();
+                    Console.Write("Nơi Sinh: ");
+                    sinhVienToUpdate.NoiSinh = Console.ReadLine();
+                    Console.Write("Giới Tính: ");
+                    sinhVienToUpdate.GioiTinh = Console.ReadLine();
+
+                    // Validate input for DTB and DRL
+                    double dtb;
+                    while (!double.TryParse(Console.ReadLine(), out dtb))
+                    {
+                        Console.Write("Điểm Trung Bình không hợp lệ, vui lòng nhập lại: ");
+                    }
+                    sinhVienToUpdate.DTB = dtb;
+
+                    int dRL;
+                    while (!int.TryParse(Console.ReadLine(), out dRL))
+                    {
+                        Console.Write("Điểm Rèn Luyện không hợp lệ, vui lòng nhập lại: ");
+                    }
+                    sinhVienToUpdate.DRL = dRL;
+
+                    LuuDanhSachSinhVien(sinhViens);
+                    Console.WriteLine("Thông tin sinh viên đã được cập nhật!");
+                }
+                else
+                {
+                    Console.WriteLine("Không tìm thấy sinh viên với MSSV này.");
+                }
+            }
+
+            static void XemSinhVien()
+            {
+                Console.Clear();
+                Console.WriteLine(">>> Tìm Kiếm/Xem Thông Tin Sinh Viên <<<");
+
+                Console.Write("Nhập MSSV của sinh viên cần xem: ");
+                string mssv = Console.ReadLine();
+
+                var sinhViens = DocDanhSachSinhVien();
+                var sinhVien = sinhViens.Find(sv => sv.MSSV == mssv);
+
+                if (sinhVien != null)
+                {
+                    Console.WriteLine($"MSSV: {sinhVien.MSSV}");
+                    Console.WriteLine($"Lớp Sinh Viên: {sinhVien.LopSV}");
+                    Console.WriteLine($"Họ Tên: {sinhVien.HoTen}");
+                    Console.WriteLine($"Ngày Sinh: {sinhVien.NgaySinh}");
+                    Console.WriteLine($"Nơi Sinh: {sinhVien.NoiSinh}");
+                    Console.WriteLine($"Giới Tính: {sinhVien.GioiTinh}");
+                    Console.WriteLine($"Điểm Trung Bình: {sinhVien.DTB}");
+                    Console.WriteLine($"Điểm Rèn Luyện: {sinhVien.DRL}");
+                }
+                else
+                {
+                    Console.WriteLine("Không tìm thấy sinh viên với MSSV này.");
+                }
+            }
+
+     
+            static void XuatDanhSachHocBong()
+                {
+                    // Sắp xếp danh sách theo các tiêu chí: điểm học tập, điểm rèn luyện, số ngành học.
+                    danhSachSV.Sort((a, b) =>
+                    {
+                        if (b.dtb != a.dtb)
+                            return b.dtb.CompareTo(a.dtb); 
+                            // So sánh điểm học tập, ưu tiên điểm cao hơn.
+                        if (b.dRL != a.dRL)
+                            return b.dRL.CompareTo(a.dRL); 
+                            // Nếu điểm học tập bằng nhau, so tiếp điểm rèn luyện.
+                        
+                    });
+
+                    using (StreamWriter writer = new StreamWriter("ketQuaHocBong.txt")) 
+                    // Mở (hoặc tạo) tệp để ghi kết quả.
+                    {
+                        writer.WriteLine("Kết quả xét học bổng:");
+
+                        foreach (var sv in SinhVien) 
+                        {
+                            if (sv.dtb >= 3.75f && sv.dRL >= 85) 
+                            {
+                                writer.WriteLine($"{sv.mssv} - {sv.hoTen} - Lớp: {sv.lopSV} - ĐTB: {sv.dtb} - ĐRL: {sv.dRL}");
+                                // Ghi thông tin sinh viên đủ điều kiện vào tệp.
+                            }
+                        }
+                    }
+
+                    Console.WriteLine("\nKết quả đã được xuất vào tệp 'ketQuaHocBong.txt'.");
+                    // Thông báo xuất kết quả thành công.
+                }
         }
     }
 }
