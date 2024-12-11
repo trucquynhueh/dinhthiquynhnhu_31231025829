@@ -307,37 +307,39 @@ namespace QuanLySinhVienUeh
 
      
             static void XuatDanhSachHocBong()
-                {
-                    // Sắp xếp danh sách theo các tiêu chí: điểm học tập, điểm rèn luyện, số ngành học.
-                    danhSachSV.Sort((a, b) =>
-                    {
-                        if (b.dtb != a.dtb)
-                            return b.dtb.CompareTo(a.dtb); 
-                            // So sánh điểm học tập, ưu tiên điểm cao hơn.
-                        if (b.dRL != a.dRL)
-                            return b.dRL.CompareTo(a.dRL); 
-                            // Nếu điểm học tập bằng nhau, so tiếp điểm rèn luyện.
-                        
-                    });
+{
+    Console.Clear();
+    Console.WriteLine(">>> Danh Sách Sinh Viên Được Xét Học Bổng <<<");
 
-                    using (StreamWriter writer = new StreamWriter("ketQuaHocBong.txt")) 
-                    // Mở (hoặc tạo) tệp để ghi kết quả.
-                    {
-                        writer.WriteLine("Kết quả xét học bổng:");
+    var sinhViens = DocDanhSachSinhVien();
 
-                        foreach (var sv in SinhVien) 
-                        {
-                            if (sv.dtb >= 9 && sv.dRL >= 85) 
-                            {
-                                writer.WriteLine($"{sv.mssv} - {sv.hoTen} - Lớp: {sv.lopSV} - ĐTB: {sv.dtb} - ĐRL: {sv.dRL}");
-                                // Ghi thông tin sinh viên đủ điều kiện vào tệp.
-                            }
-                        }
-                    }
+    // Sắp xếp danh sách theo tiêu chí: điểm trung bình trước, sau đó đến điểm rèn luyện
+    sinhViens.Sort((a, b) =>
+    {
+        if (b.DTB != a.DTB)
+            return b.DTB.CompareTo(a.DTB); // So sánh điểm trung bình, ưu tiên cao hơn
+        return b.DRL.CompareTo(a.DRL); // Nếu điểm trung bình bằng nhau, ưu tiên điểm rèn luyện cao hơn
+    });
 
-                    Console.WriteLine("\nKết quả đã được xuất vào tệp 'ketQuaHocBong.txt'.");
-                    // Thông báo xuất kết quả thành công.
-                }
+    // Kiểm tra và ghi danh sách đủ điều kiện học bổng
+    using (StreamWriter writer = new StreamWriter("ketQuaHocBong.txt"))
+    {
+        writer.WriteLine("Kết quả xét học bổng:");
+        writer.WriteLine("MSSV | Họ Tên | Lớp | ĐTB | ĐRL");
+
+        foreach (var sv in sinhViens)
+        {
+            if (sv.DTB >= 8.5 && sv.DRL >= 85) // Điều kiện học bổng
+            {
+                writer.WriteLine($"{sv.MSSV} | {sv.HoTen} | {sv.LopSV} | {sv.DTB:F2} | {sv.DRL}");
+            }
+        }
+    }
+
+    Console.WriteLine("Kết quả đã được xuất vào tệp 'ketQuaHocBong.txt'.");
+    Console.WriteLine("Nhấn phím bất kỳ để quay lại menu...");
+    Console.ReadKey();
+}
         }
     }
 }
