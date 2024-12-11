@@ -327,7 +327,7 @@ namespace QuanLySinhVienUeh
 
                         foreach (var sv in SinhVien) 
                         {
-                            if (sv.dtb >= 3.75f && sv.dRL >= 85) 
+                            if (sv.dtb >= 9 && sv.dRL >= 85) 
                             {
                                 writer.WriteLine($"{sv.mssv} - {sv.hoTen} - Lớp: {sv.lopSV} - ĐTB: {sv.dtb} - ĐRL: {sv.dRL}");
                                 // Ghi thông tin sinh viên đủ điều kiện vào tệp.
