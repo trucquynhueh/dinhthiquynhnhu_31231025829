@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace QuanLySinhVienUeh
 {
@@ -288,6 +289,14 @@ namespace QuanLySinhVienUeh
                 var sinhViens = DocDanhSachSinhVien();
                 var sinhVien = sinhViens.Find(sv => sv.MSSV == mssv);
 
+                string inputFilePath = "SinhVien.txt";
+
+                string[] lines = File.ReadAllLines(inputFilePath);
+                string[] column7Values = new string[lines.Length];
+
+                double diem = sinhVien.DTB;
+                double diemhe4 = XetDiemCot4(diem);
+
                 if (sinhVien != null)
                 {
                     Console.WriteLine($"MSSV: {sinhVien.MSSV}");
@@ -298,6 +307,7 @@ namespace QuanLySinhVienUeh
                     Console.WriteLine($"Giới Tính: {sinhVien.GioiTinh}");
                     Console.WriteLine($"Điểm Trung Bình: {sinhVien.DTB}");
                     Console.WriteLine($"Điểm Rèn Luyện: {sinhVien.DRL}");
+                    Console.WriteLine($"Điểm Hệ 4: {diemhe4}");
                 }
                 else
                 {
@@ -325,13 +335,14 @@ namespace QuanLySinhVienUeh
     using (StreamWriter writer = new StreamWriter("ketQuaHocBong.txt"))
     {
         writer.WriteLine("Kết quả xét học bổng:");
-        writer.WriteLine("MSSV | Họ Tên | Lớp | ĐTB | ĐRL");
+        writer.WriteLine("MSSV | Họ Tên | Lớp | ĐTB | ĐRL | Điểm hệ 4");
 
         foreach (var sv in sinhViens)
         {
             if (sv.DTB >= 8.5 && sv.DRL >= 85) // Điều kiện học bổng
             {
-                writer.WriteLine($"{sv.MSSV} | {sv.HoTen} | {sv.LopSV} | {sv.DTB:F2} | {sv.DRL}");
+                double diemHe4 = XetDiemCot4(sv.DTB);
+                writer.WriteLine($"{sv.MSSV} | {sv.HoTen} | {sv.LopSV} | {sv.DTB:F2} | {sv.DRL} | {diemHe4:F2}");
             }
         }
     }
@@ -341,5 +352,42 @@ namespace QuanLySinhVienUeh
     Console.ReadKey();
 }
         }
+static double XetDiemCot4 (double b)
+            {
+                
+                        if (b >= 8.5)
+                        {
+                            b = 4;
+                        }
+                        else if (b >= 8 && b <= 8.4)
+                        {
+                            b = 3.5;
+                        }
+                        else if (b >= 7 && b <= 7.9)
+                        {
+                            b = 3;
+                        }
+                        else if (b >= 6.5 && b <= 6.9)
+                        {
+                            b = 2.5;
+                        }
+                        else if (b >= 5.5 && b <= 6.4)
+                        {
+                            b = 2;
+                        }
+                        else if (b >= 5.4 && b <= 5)
+                        {
+                            b = 1.5;
+                        }
+                        else if (b >= 4 && b <= 4.9)
+                        {
+                            b = 1;
+                        }
+                        else
+                        {
+                            b = 0;
+                        }
+                return b;
+                    }
     }
 }
