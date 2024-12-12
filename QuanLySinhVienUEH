@@ -320,7 +320,6 @@ namespace QuanLySinhVienUeh
                 }
             }
 
-     
             static void XuatDanhSachHocBong()
             {
                 Console.Clear();
@@ -336,6 +335,10 @@ namespace QuanLySinhVienUeh
                     return b.DRL.CompareTo(a.DRL); // Nếu điểm trung bình bằng nhau, ưu tiên điểm rèn luyện cao hơn
                 });
 
+                // Hiển thị tiêu đề danh sách trên console
+                Console.WriteLine("MSSV | Họ Tên               | Lớp       | ĐTB  | ĐRL  | Điểm hệ 4");
+                Console.WriteLine("--------------------------------------------------------------");
+
                 // Kiểm tra và ghi danh sách đủ điều kiện học bổng
                 using (StreamWriter writer = new StreamWriter("ketQuaHocBong.txt"))
                 {
@@ -345,14 +348,19 @@ namespace QuanLySinhVienUeh
                     foreach (var sv in sinhViens)
                     {
                         if (sv.DTB >= 8.5 && sv.DRL >= 85) // Điều kiện học bổng
-                            {
-                                double diemHe4 = XetDiemCot4(sv.DTB);
-                                writer.WriteLine($"{sv.MSSV} | {sv.HoTen} | {sv.LopSV} | {sv.DTB:F2} | {sv.DRL} | {diemHe4:F2}");
-                            }
+                        {
+                            double diemHe4 = XetDiemCot4(sv.DTB);
+
+                            // Ghi vào file
+                            writer.WriteLine($"{sv.MSSV} | {sv.HoTen} | {sv.LopSV} | {sv.DTB:F2} | {sv.DRL} | {diemHe4:F2}");
+
+                            // Hiển thị trên console
+                            Console.WriteLine($"{sv.MSSV} | {sv.HoTen,-20} | {sv.LopSV,-10} | {sv.DTB:F2} | {sv.DRL} | {diemHe4:F2}");
+                        }
                     }
                 }
 
-                Console.WriteLine("Kết quả đã được xuất vào tệp 'ketQuaHocBong.txt'.");
+                Console.WriteLine("\nKết quả đã được xuất vào tệp 'ketQuaHocBong.txt'.");
                 Console.WriteLine("Nhấn phím bất kỳ để quay lại menu...");
                 Console.ReadKey();
             }
