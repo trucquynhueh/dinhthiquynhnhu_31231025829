@@ -66,6 +66,10 @@ namespace QuanLySinhVienUeh
                             break;
 
                         case "6":
+                            XepLoaiTotNghiep();
+                            break;
+
+                        case "7":
                             Console.Clear();
                             Console.WriteLine("Chúc bạn học tốt!");
                             Environment.Exit(0);
@@ -92,7 +96,8 @@ namespace QuanLySinhVienUeh
                 Console.WriteLine("3. Sửa Thông Tin Sinh Viên");
                 Console.WriteLine("4. Tìm Kiếm/Xem Thông Tin Sinh Viên");
                 Console.WriteLine("5. Danh Sách Sinh Viên Xét Học Bổng");
-                Console.WriteLine("6. Thoát Chương Trình");
+                Console.WriteLine("6. Xếp Loại Tốt Nghiệp");
+                Console.WriteLine("7. Thoát Chương Trình");
                 Console.WriteLine("===============================================");
             }
 
@@ -317,77 +322,85 @@ namespace QuanLySinhVienUeh
 
      
             static void XuatDanhSachHocBong()
-{
-    Console.Clear();
-    Console.WriteLine(">>> Danh Sách Sinh Viên Được Xét Học Bổng <<<");
-
-    var sinhViens = DocDanhSachSinhVien();
-
-    // Sắp xếp danh sách theo tiêu chí: điểm trung bình trước, sau đó đến điểm rèn luyện
-    sinhViens.Sort((a, b) =>
-    {
-        if (b.DTB != a.DTB)
-            return b.DTB.CompareTo(a.DTB); // So sánh điểm trung bình, ưu tiên cao hơn
-        return b.DRL.CompareTo(a.DRL); // Nếu điểm trung bình bằng nhau, ưu tiên điểm rèn luyện cao hơn
-    });
-
-    // Kiểm tra và ghi danh sách đủ điều kiện học bổng
-    using (StreamWriter writer = new StreamWriter("ketQuaHocBong.txt"))
-    {
-        writer.WriteLine("Kết quả xét học bổng:");
-        writer.WriteLine("MSSV | Họ Tên | Lớp | ĐTB | ĐRL | Điểm hệ 4");
-
-        foreach (var sv in sinhViens)
-        {
-            if (sv.DTB >= 8.5 && sv.DRL >= 85) // Điều kiện học bổng
             {
-                double diemHe4 = XetDiemCot4(sv.DTB);
-                writer.WriteLine($"{sv.MSSV} | {sv.HoTen} | {sv.LopSV} | {sv.DTB:F2} | {sv.DRL} | {diemHe4:F2}");
-            }
-        }
-    }
+                Console.Clear();
+                Console.WriteLine(">>> Danh Sách Sinh Viên Được Xét Học Bổng <<<");
 
-    Console.WriteLine("Kết quả đã được xuất vào tệp 'ketQuaHocBong.txt'.");
-    Console.WriteLine("Nhấn phím bất kỳ để quay lại menu...");
-    Console.ReadKey();
-}
-        }
-static double XetDiemCot4 (double b)
+                var sinhViens = DocDanhSachSinhVien();
+
+                // Sắp xếp danh sách theo tiêu chí: điểm trung bình trước, sau đó đến điểm rèn luyện
+                sinhViens.Sort((a, b) =>
+                {
+                    if (b.DTB != a.DTB)
+                    return b.DTB.CompareTo(a.DTB); // So sánh điểm trung bình, ưu tiên cao hơn
+                    return b.DRL.CompareTo(a.DRL); // Nếu điểm trung bình bằng nhau, ưu tiên điểm rèn luyện cao hơn
+                });
+
+                // Kiểm tra và ghi danh sách đủ điều kiện học bổng
+                using (StreamWriter writer = new StreamWriter("ketQuaHocBong.txt"))
+                {
+                    writer.WriteLine("Kết quả xét học bổng:");
+                    writer.WriteLine("MSSV | Họ Tên | Lớp | ĐTB | ĐRL | Điểm hệ 4");
+
+                    foreach (var sv in sinhViens)
+                    {
+                        if (sv.DTB >= 8.5 && sv.DRL >= 85) // Điều kiện học bổng
+                            {
+                                double diemHe4 = XetDiemCot4(sv.DTB);
+                                writer.WriteLine($"{sv.MSSV} | {sv.HoTen} | {sv.LopSV} | {sv.DTB:F2} | {sv.DRL} | {diemHe4:F2}");
+                            }
+                    }
+                }
+
+                Console.WriteLine("Kết quả đã được xuất vào tệp 'ketQuaHocBong.txt'.");
+                Console.WriteLine("Nhấn phím bất kỳ để quay lại menu...");
+                Console.ReadKey();
+            }
+
+            static double XetDiemCot4 (double b)
             {
                 
-                        if (b >= 8.5)
-                        {
-                            b = 4;
-                        }
-                        else if (b >= 8 && b <= 8.4)
-                        {
-                            b = 3.5;
-                        }
-                        else if (b >= 7 && b <= 7.9)
-                        {
-                            b = 3;
-                        }
-                        else if (b >= 6.5 && b <= 6.9)
-                        {
-                            b = 2.5;
-                        }
-                        else if (b >= 5.5 && b <= 6.4)
-                        {
-                            b = 2;
-                        }
-                        else if (b >= 5.4 && b <= 5)
-                        {
-                            b = 1.5;
-                        }
-                        else if (b >= 4 && b <= 4.9)
-                        {
-                            b = 1;
-                        }
-                        else
-                        {
-                            b = 0;
-                        }
+                if (b >= 8.5)
+                {
+                    b = 4;
+                }
+                else if (b >= 8 && b <= 8.4)
+                {
+                    b = 3.5;
+                }
+                else if (b >= 7 && b <= 7.9)
+                {
+                    b = 3;
+                }
+                else if (b >= 6.5 && b <= 6.9)
+                {
+                    b = 2.5;
+                }
+                else if (b >= 5.5 && b <= 6.4)
+                {
+                    b = 2;
+                }
+                else if (b >= 5.4 && b <= 5)
+                {
+                    b = 1.5;
+                }
+                else if (b >= 4 && b <= 4.9)
+                {
+                    b = 1;
+                }
+                else
+                {
+                    b = 0;
+                }
                 return b;
-                    }
+            }
+
+            static void XepLoaiTotNghiep()
+            {
+                Console.Clear();
+                Console.WriteLine(">>> Xếp Loại Học Bổng Sinh Viên <<<");
+
+            }
+        }
     }
 }
