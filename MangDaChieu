@@ -1,0 +1,200 @@
+using System;
+
+namespace QuanLySinhVien
+{
+    internal class Program
+    {
+        static string[,] sinhViens = new string[100, 8]; // Mảng lưu danh sách sinh viên (tối đa 100 sinh viên)
+        static int sinhVienCount = 0; // Số lượng sinh viên hiện tại
+
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+                ShowMenu();
+                Console.Write("\nChọn một tùy chọn (1-6): ");
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        ThemSinhVien();
+                        break;
+
+                    case "2":
+                        XemDanhSachSinhVien();
+                        break;
+
+                    case "3":
+                        SuaSinhVien();
+                        break;
+
+                    case "4":
+                        XoaSinhVien();
+                        break;
+
+                    case "5":
+                        XuatDanhSachHocBong();
+                        break;
+
+                    case "6":
+                        Console.WriteLine("Thoát chương trình.");
+                        return;
+
+                    default:
+                        Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng thử lại!");
+                        break;
+                }
+
+                Console.WriteLine("\nNhấn phím bất kỳ để quay lại menu...");
+                Console.ReadKey();
+            }
+        }
+
+        static void ShowMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("===============================================");
+            Console.WriteLine("            QUẢN LÝ SINH VIÊN UEH");
+            Console.WriteLine("===============================================");
+            Console.WriteLine("1. Thêm Sinh Viên");
+            Console.WriteLine("2. Xem Danh Sách Sinh Viên");
+            Console.WriteLine("3. Sửa Thông Tin Sinh Viên");
+            Console.WriteLine("4. Xóa Sinh Viên");
+            Console.WriteLine("5. Xuất Danh Sách Học Bổng");
+            Console.WriteLine("6. Thoát");
+            Console.WriteLine("===============================================");
+        }
+
+        static void ThemSinhVien()
+        {
+            if (sinhVienCount >= sinhViens.GetLength(0))
+            {
+                Console.WriteLine("Danh sách sinh viên đã đầy!");
+                return;
+            }
+
+            Console.WriteLine("=== Thêm Sinh Viên ===");
+            Console.Write("MSSV: ");
+            sinhViens[sinhVienCount, 0] = Console.ReadLine();
+            Console.Write("Lớp: ");
+            sinhViens[sinhVienCount, 1] = Console.ReadLine();
+            Console.Write("Họ Tên: ");
+            sinhViens[sinhVienCount, 2] = Console.ReadLine();
+            Console.Write("Ngày Sinh: ");
+            sinhViens[sinhVienCount, 3] = Console.ReadLine();
+            Console.Write("Nơi Sinh: ");
+            sinhViens[sinhVienCount, 4] = Console.ReadLine();
+            Console.Write("Giới Tính: ");
+            sinhViens[sinhVienCount, 5] = Console.ReadLine();
+            Console.Write("Điểm Trung Bình (DTB): ");
+            sinhViens[sinhVienCount, 6] = Console.ReadLine();
+            Console.Write("Điểm Rèn Luyện (DRL): ");
+            sinhViens[sinhVienCount, 7] = Console.ReadLine();
+
+            sinhVienCount++;
+            Console.WriteLine("Thêm sinh viên thành công!");
+        }
+
+        static void XemDanhSachSinhVien()
+        {
+            Console.WriteLine("=== Danh Sách Sinh Viên ===");
+            if (sinhVienCount == 0)
+            {
+                Console.WriteLine("Danh sách sinh viên trống!");
+                return;
+            }
+
+            for (int i = 0; i < sinhVienCount; i++)
+            {
+                Console.WriteLine($"MSSV: {sinhViens[i, 0]} | Lớp: {sinhViens[i, 1]} | Họ Tên: {sinhViens[i, 2]} | " +
+                                  $"Ngày Sinh: {sinhViens[i, 3]} | Nơi Sinh: {sinhViens[i, 4]} | Giới Tính: {sinhViens[i, 5]} | " +
+                                  $"DTB: {sinhViens[i, 6]} | DRL: {sinhViens[i, 7]}");
+            }
+        }
+
+        static void SuaSinhVien()
+        {
+            Console.Write("Nhập MSSV của sinh viên cần sửa: ");
+            string mssv = Console.ReadLine();
+            int index = TimSinhVien(mssv);
+
+            if (index == -1)
+            {
+                Console.WriteLine("Không tìm thấy sinh viên với MSSV này.");
+                return;
+            }
+
+            Console.WriteLine("=== Sửa Thông Tin Sinh Viên ===");
+            Console.Write("Lớp: ");
+            sinhViens[index, 1] = Console.ReadLine();
+            Console.Write("Họ Tên: ");
+            sinhViens[index, 2] = Console.ReadLine();
+            Console.Write("Ngày Sinh: ");
+            sinhViens[index, 3] = Console.ReadLine();
+            Console.Write("Nơi Sinh: ");
+            sinhViens[index, 4] = Console.ReadLine();
+            Console.Write("Giới Tính: ");
+            sinhViens[index, 5] = Console.ReadLine();
+            Console.Write("Điểm Trung Bình (DTB): ");
+            sinhViens[index, 6] = Console.ReadLine();
+            Console.Write("Điểm Rèn Luyện (DRL): ");
+            sinhViens[index, 7] = Console.ReadLine();
+
+            Console.WriteLine("Sửa thông tin thành công!");
+        }
+
+        static void XoaSinhVien()
+        {
+            Console.Write("Nhập MSSV của sinh viên cần xóa: ");
+            string mssv = Console.ReadLine();
+            int index = TimSinhVien(mssv);
+
+            if (index == -1)
+            {
+                Console.WriteLine("Không tìm thấy sinh viên với MSSV này.");
+                return;
+            }
+
+            // Dịch các phần tử phía sau lên trước
+            for (int i = index; i < sinhVienCount - 1; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    sinhViens[i, j] = sinhViens[i + 1, j];
+                }
+            }
+
+            sinhVienCount--;
+            Console.WriteLine("Xóa sinh viên thành công!");
+        }
+
+        static void XuatDanhSachHocBong()
+        {
+            Console.WriteLine("=== Danh Sách Sinh Viên Xét Học Bổng ===");
+            for (int i = 0; i < sinhVienCount; i++)
+            {
+                double dtb = double.Parse(sinhViens[i, 6]);
+                int drl = int.Parse(sinhViens[i, 7]);
+
+                if (dtb >= 8.0 && drl >= 80)
+                {
+                    Console.WriteLine($"{sinhViens[i, 2]} - MSSV: {sinhViens[i, 0]} - ĐTB: {dtb} - DRL: {drl}");
+                }
+            }
+        }
+
+        static int TimSinhVien(string mssv)
+        {
+            for (int i = 0; i < sinhVienCount; i++)
+            {
+                if (sinhViens[i, 0] == mssv)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+    }
+}
