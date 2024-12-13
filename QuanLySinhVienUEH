@@ -331,33 +331,46 @@ namespace QuanLySinhVienUeh
                 sinhViens.Sort((a, b) =>
                 {
                     if (b.DTB != a.DTB)
-                    return b.DTB.CompareTo(a.DTB); // So sánh điểm trung bình, ưu tiên cao hơn
+                        return b.DTB.CompareTo(a.DTB); // So sánh điểm trung bình, ưu tiên cao hơn
                     return b.DRL.CompareTo(a.DRL); // Nếu điểm trung bình bằng nhau, ưu tiên điểm rèn luyện cao hơn
                 });
 
-                // Hiển thị tiêu đề danh sách trên console
-                Console.WriteLine("MSSV | Họ Tên               | Lớp       | ĐTB  | ĐRL  | Điểm hệ 4");
-                Console.WriteLine("--------------------------------------------------------------");
+                // Tạo các nhóm dựa vào MSSV
+                var khoa49 = new List<SinhVien>();
+                var khoa48 = new List<SinhVien>();
+                var khoa47 = new List<SinhVien>();
 
-                // Kiểm tra và ghi danh sách đủ điều kiện học bổng
+                // Phân loại sinh viên vào các nhóm
+                foreach (var sv in sinhViens)
+                {
+                    if (sv.MSSV.StartsWith("3123"))
+                        khoa49.Add(sv);
+                    else if (sv.MSSV.StartsWith("3122"))
+                        khoa48.Add(sv);
+                    else if (sv.MSSV.StartsWith("3121"))
+                        khoa47.Add(sv);
+                }
+
+                // Random số suất học bổng cho mỗi khóa (8-9 suất)
+                Random rand = new Random();
+                int scholarshipSlotsKhoa49 = rand.Next(8, 10);
+                int scholarshipSlotsKhoa48 = rand.Next(8, 10);
+                int scholarshipSlotsKhoa47 = rand.Next(8, 10);
+
+                // Cấp học bổng cho mỗi khóa
+                List<SinhVien> khoa49HocBong = CapHocBong(khoa49, scholarshipSlotsKhoa49);
+                List<SinhVien> khoa48HocBong = CapHocBong(khoa48, scholarshipSlotsKhoa48);
+                List<SinhVien> khoa47HocBong = CapHocBong(khoa47, scholarshipSlotsKhoa47);
+
+                // Ghi danh sách vào file và in ra console
                 using (StreamWriter writer = new StreamWriter("ketQuaHocBong.txt"))
                 {
-                    writer.WriteLine("Kết quả xét học bổng:");
-                    writer.WriteLine("MSSV | Họ Tên | Lớp | ĐTB | ĐRL | Điểm hệ 4");
-
-                    foreach (var sv in sinhViens)
-                    {
-                        if (sv.DTB >= 8.5 && sv.DRL >= 85) // Điều kiện học bổng
-                        {
-                            double diemHe4 = XetDiemCot4(sv.DTB);
-
-                            // Ghi vào file
-                            writer.WriteLine($"{sv.MSSV} | {sv.HoTen} | {sv.LopSV} | {sv.DTB:F2} | {sv.DRL} | {diemHe4:F2}");
-
-                            // Hiển thị trên console
-                            Console.WriteLine($"{sv.MSSV} | {sv.HoTen,-20} | {sv.LopSV,-10} | {sv.DTB:F2} | {sv.DRL} | {diemHe4:F2}");
-                        }
-                    }
+                    // Ghi file và hiển thị console cho từng khóa
+                    GhiVaHienThiBang(writer, "Danh sách sinh viên đạt học bổng KKHT Khóa 49 – ĐHCQ", khoa49HocBong);
+                    Console.WriteLine(new string('-', 80));
+                    GhiVaHienThiBang(writer, "Danh sách sinh viên đạt học bổng KKHT Khóa 48 – ĐHCQ", khoa48HocBong);
+                    Console.WriteLine(new string('-', 80));
+                    GhiVaHienThiBang(writer, "Danh sách sinh viên đạt học bổng KKHT Khóa 47 – ĐHCQ", khoa47HocBong);
                 }
 
                 Console.WriteLine("\nKết quả đã được xuất vào tệp 'ketQuaHocBong.txt'.");
@@ -365,43 +378,111 @@ namespace QuanLySinhVienUeh
                 Console.ReadKey();
             }
 
-            static double XetDiemCot4 (double b)
+            // Hàm xử lý ghi và hiển thị danh sách
+            static void GhiVaHienThiBang(StreamWriter writer, string tieuDe, List<SinhVien> sinhViens)
             {
-                
+                if (sinhViens.Count == 0) return;
+
+                // Ghi tiêu đề
+                writer.WriteLine(tieuDe);
+                writer.WriteLine(new string('-', 80));
+                Console.WriteLine(tieuDe);
+                Console.WriteLine(new string('-', 80));
+
+                // Ghi tiêu đề bảng
+                string header = "MSSV | Họ Tên               | Lớp       | ĐTB  | ĐRL  | Điểm hệ 4 | Loại học bổng";
+                writer.WriteLine(header);
+                writer.WriteLine(new string('-', header.Length));
+                Console.WriteLine(header);
+                Console.WriteLine(new string('-', header.Length));
+
+                // Ghi dữ liệu sinh viên
+                foreach (var sv in sinhViens)
+                {
+                    double diemHe4 = XetDiemCot4(sv.DTB);
+                    string loaiHocBong = XetLoaiHocBong(sv.DTB, sv.DRL);
+
+                    string row = $"{sv.MSSV} | {sv.HoTen,-20} | {sv.LopSV,-10} | {sv.DTB:F2} | {sv.DRL} | {diemHe4:F2} | {loaiHocBong}";
+                    writer.WriteLine(row);
+                    Console.WriteLine(row);
+                }
+
+                writer.WriteLine(new string('-', 80));
+                Console.WriteLine(new string('-', 80));
+            }
+
+            // Hàm xác định loại học bổng
+            static string XetLoaiHocBong(double dtb, int drl)
+            {
+                if (dtb >= 9.0 && drl >= 90)
+                    return "Xuất sắc";
+                else if (dtb >= 8.0 && drl >= 80)
+                    return "Giỏi";
+                else if (dtb >= 7.0 && drl >= 70)
+                    return "Khá";
+                else
+                    return "Không đủ điều kiện";
+            }
+
+            // Hàm cấp học bổng cho mỗi khóa
+            static List<SinhVien> CapHocBong(List<SinhVien> sinhViens, int scholarshipSlots)
+            {
+                var awardedStudents = new List<SinhVien>();
+
+                foreach (var sv in sinhViens)
+                {
+                    if (awardedStudents.Count >= scholarshipSlots) break;
+
+                    string loaiHocBong = XetLoaiHocBong(sv.DTB, sv.DRL);
+                    if (loaiHocBong != "Không đủ điều kiện")
+                    {
+                        awardedStudents.Add(sv);
+                    }
+                }
+
+                return awardedStudents;
+            }
+            // Hàm tính điểm hệ 4 (không thay đổi)
+            static double XetDiemCot4(double b)
+            {
+                double diemCot4 = 0; // Biến lưu điểm hệ số 4
+
                 if (b >= 8.5)
                 {
-                    b = 4;
+                    diemCot4 = 4;
                 }
-                else if (b >= 8 && b <= 8.4)
+                else if (b >= 8) // Không cần kiểm tra <= 8.4, đã được đảm bảo bởi điều kiện trước đó
                 {
-                    b = 3.5;
+                    diemCot4 = 3.5;
                 }
-                else if (b >= 7 && b <= 7.9)
+                else if (b >= 7)
                 {
-                    b = 3;
+                    diemCot4 = 3;
                 }
-                else if (b >= 6.5 && b <= 6.9)
+                else if (b >= 6.5)
                 {
-                    b = 2.5;
+                    diemCot4 = 2.5;
                 }
-                else if (b >= 5.5 && b <= 6.4)
+                else if (b >= 5.5)
                 {
-                    b = 2;
+                    diemCot4 = 2;
                 }
-                else if (b >= 5.4 && b <= 5)
+                else if (b >= 5) // Điều kiện >= 5 đã bao gồm 5.4
                 {
-                    b = 1.5;
+                    diemCot4 = 1.5;
                 }
-                else if (b >= 4 && b <= 4.9)
+                else if (b >= 4)
                 {
-                    b = 1;
+                    diemCot4 = 1;
                 }
                 else
                 {
-                    b = 0;
+                    diemCot4 = 0;
                 }
-                return b;
+
+                return diemCot4;
             }
+
 
             static void XepLoaiTotNghiep()
             {
