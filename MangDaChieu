@@ -1,4 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using System.Globalization;
 
 namespace QuanLySinhVien
 {
@@ -12,7 +18,7 @@ namespace QuanLySinhVien
             while (true)
             {
                 ShowMenu();
-                Console.Write("\nChọn một tùy chọn (1-6): ");
+                Console.Write("\nChọn một tùy chọn (1-7): ");
                 string choice = Console.ReadLine();
 
                 switch (choice)
@@ -38,6 +44,44 @@ namespace QuanLySinhVien
                         break;
 
                     case "6":
+                        Console.Write("Nhập mã số sinh viên: ");
+                        int index = -1;
+                        string mssv;
+                        while (true)
+                        {
+                            try
+                            {
+                                Console.Write("Nhập MSSV của sinh viên cần sửa: ");
+                                mssv = Console.ReadLine();
+                                long StudentID = long.Parse(mssv);
+                                if (mssv.Length != 8)
+                                {
+                                    throw new ArgumentException("Mã số sinh viên phải bao gồm đúng 8 chữ số.");
+                                }
+                                else
+                                {
+                                    index = TimSinhVien(mssv);
+                                    break;
+                                }
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Mã số sinh viên phải là số nguyên");
+                            }
+
+                        }
+                        if (index == -1)
+                        {
+                            Console.WriteLine("Không tìm thấy sinh viên với MSSV này.");
+                            return;
+                        }
+                        else
+                        {
+                            XetLoaiTotNghiep(sinhViens[index,6]);
+                            break;
+                        }
+
+                    case "7":
                         Console.WriteLine("Thoát chương trình.");
                         return;
 
@@ -61,8 +105,8 @@ namespace QuanLySinhVien
             Console.WriteLine("2. Xem Danh Sách Sinh Viên");
             Console.WriteLine("3. Sửa Thông Tin Sinh Viên");
             Console.WriteLine("4. Xóa Sinh Viên");
-            Console.WriteLine("5. Xuất Danh Sách Học Bổng");
-            Console.WriteLine("6. Thoát");
+            Console.WriteLine("6. Xếp Loại Tốt Nghiệp");
+            Console.WriteLine("7. Thoát Chương Trình");
             Console.WriteLine("===============================================");
         }
 
