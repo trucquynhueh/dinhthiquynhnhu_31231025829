@@ -6,328 +6,327 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Globalization;
 
-namespace QuanLySinhVien
+namespace QuanLySinhVienUEH
 {
     internal class Program
- {
-     static string[,] sinhViens = new string[100, 8]; // Mảng lưu danh sách sinh viên (tối đa 100 sinh viên)
-     static int sinhVienCount = 0; // Số lượng sinh viên hiện tại
-     static string fileName = "SinhVien.txt"; // Đường dẫn đến file
- static void Main(string[] args)
-     {
-         while (true)
-         {
-             ShowMenu();
-             Console.Write("\nChọn một tùy chọn (1-6): ");
-             string choice = Console.ReadLine();
+    {
+        static string[,] sinhViens = new string[100, 8]; // Mảng lưu danh sách sinh viên (tối đa 100 sinh viên)
+        static int sinhVienCount = 0; // Số lượng sinh viên hiện tại
+        static string fileName = "SinhVien.txt"; // Đường dẫn đến file
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+                ShowMenu();
+                Console.Write("\nChọn một tùy chọn (1-6): ");
+                string choice = Console.ReadLine();
 
-             switch (choice)
-             {
-                 {
-                        case "1":
-                            ThemSinhVien();
-                            break;
+                switch (choice)
+                {
+                    case "1":
+                        ThemSinhVien();
+                        break;
 
-                        case "2":
-                            XoaSinhVien();
-                            break;
+                    case "2":
+                        XemDanhSachSinhVien();
+                        break;
 
-                        case "3":
-                            SuaSinhVien();
-                            break;
+                    case "3":
+                        SuaSinhVien();
+                        break;
 
-                        case "4":
-                            XemSinhVien();
-                            break;
+                    case "4":
+                        XoaSinhVien();
+                        break;
 
-                        case "5":
-                            XuatDanhSachHocBong();
-                            break;
+                    case "5":
+                        XuatDanhSachHocBong();
+                        break;
 
-                        case "6":
-                            XepLoaiTotNghiep();
-                            break;
+                    case "6":
+                        // Nhập điểm trung bình từ người dùng
+                        Console.Write("Nhập điểm trung bình của sinh viên: ");
+                        string diemTrungBinh = Console.ReadLine(); // Nhập điểm trung bình dưới dạng chuỗi
+                        XetLoaiTotNghiep(diemTrungBinh); // Truyền tham số vào hàm XetLoaiTotNghiep
+                        break;
 
-                        case "7":
-                            Console.Clear();
-                            Console.WriteLine("Chúc bạn học tốt!");
-                            Environment.Exit(0);
-                            break;
+                    case "7":
+                        Console.WriteLine("Thoát chương trình.");
+                        return;
 
-                        default:
-                            Console.WriteLine("Lựa chọn không hợp lệ, vui lòng thử lại!");
-                            break;
+                    default:
+                        Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng thử lại!");
+                        break;
+                }
+
+                Console.WriteLine("\nNhấn phím bất kỳ để quay lại menu...");
+                Console.ReadKey();
+            }
+        }
+
+        static void ShowMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("===============================================");
+            Console.WriteLine("            QUẢN LÝ SINH VIÊN UEH");
+            Console.WriteLine("===============================================");
+            Console.WriteLine("1. Thêm Sinh Viên");
+            Console.WriteLine("2. Xem Danh Sách Sinh Viên");
+            Console.WriteLine("3. Sửa Thông Tin Sinh Viên");
+            Console.WriteLine("4. Xóa Sinh Viên");
+            Console.WriteLine("5. Xuất Danh Sách Học Bổng");
+            Console.WriteLine("6. Xét Loại Tốt Nghiệp");
+            Console.WriteLine("7. Thoát Khỏi Hệ Thống");
+            Console.WriteLine("===============================================");
+        }
+
+
+        /// <summary>
+        /// Đọc file SinhVien.txt
+        /// </summary>
+        static void DocFileSinhVien()
+        {
+            try
+            {
+                // Mở file SinhVien.txt và đọc dữ liệu
+                using (StreamReader sr = new StreamReader("SinhVien.txt"))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        // Tách các trường từ dòng dữ liệu
+                        string[] fields = line.Split(',');
+
+                        if (fields.Length == 8)
+                        {
+                            sinhViens[sinhVienCount, 0] = fields[0];  // MSSV
+                            sinhViens[sinhVienCount, 1] = fields[1];  // Lớp
+                            sinhViens[sinhVienCount, 2] = fields[2];  // Họ Tên
+                            sinhViens[sinhVienCount, 3] = fields[3];  // Ngày Sinh
+                            sinhViens[sinhVienCount, 4] = fields[4];  // Nơi Sinh
+                            sinhViens[sinhVienCount, 5] = fields[5];  // Giới Tính
+                            sinhViens[sinhVienCount, 6] = fields[6];  // Điểm Trung Bình
+                            sinhViens[sinhVienCount, 7] = fields[7];  // Điểm Rèn Luyện
+
+                            sinhVienCount++;
+                        }
                     }
-             }
-
-             Console.WriteLine("\nNhấn phím bất kỳ để quay lại menu...");
-             Console.ReadKey();
-         }
-     }
-
-     static void ShowMenu()
-     {
-         Console.Clear();
-         Console.WriteLine("===============================================");
-         Console.WriteLine("            QUẢN LÝ SINH VIÊN UEH");
-         Console.WriteLine("===============================================");
-         Console.WriteLine("1. Thêm Sinh Viên");
-         Console.WriteLine("2. Xem Danh Sách Sinh Viên");
-         Console.WriteLine("3. Sửa Thông Tin Sinh Viên");
-         Console.WriteLine("4. Xóa Sinh Viên");
-         Console.WriteLine("5. Xuất Danh Sách Học Bổng");
-         Console.WriteLine("6. Xếp Loại Tốt Nghiệp");
-         Console.WriteLine("7. Thoát Chương Trình");
-         Console.WriteLine("===============================================");
-     }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi khi đọc file SinhVien.txt: " + ex.Message);
+            }
+        }
 
 
- /// <summary>
- /// Đọc file SinhVien.txt
- /// </summary>
- static void DocFileSinhVien()
- {
-     try
-     {
-         // Mở file SinhVien.txt và đọc dữ liệu
-         using (StreamReader sr = new StreamReader("SinhVien.txt"))
-         {
-             string line;
-             while ((line = sr.ReadLine()) != null)
-             {
-                 // Tách các trường từ dòng dữ liệu
-                 string[] fields = line.Split(',');
+        // Kiểm tra xem MSSV đã tồn tại trong file chưa
+        static bool MSSVExist(string mssv)
+        {
+            try
+            {
+                // Đọc tất cả các dòng từ file
+                string[] lines = File.ReadAllLines(fileName);
 
-                 if (fields.Length == 8)
-                 {
-                     sinhViens[sinhVienCount, 0] = fields[0];  // MSSV
-                     sinhViens[sinhVienCount, 1] = fields[1];  // Lớp
-                     sinhViens[sinhVienCount, 2] = fields[2];  // Họ Tên
-                     sinhViens[sinhVienCount, 3] = fields[3];  // Ngày Sinh
-                     sinhViens[sinhVienCount, 4] = fields[4];  // Nơi Sinh
-                     sinhViens[sinhVienCount, 5] = fields[5];  // Giới Tính
-                     sinhViens[sinhVienCount, 6] = fields[6];  // Điểm Trung Bình
-                     sinhViens[sinhVienCount, 7] = fields[7];  // Điểm Rèn Luyện
+                foreach (string line in lines)
+                {
+                    string[] data = line.Split(',');
+                    if (data[0] == mssv) // Kiểm tra MSSV đã tồn tại trong file
+                    {
+                        return true; // MSSV đã tồn tại
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine($"Đã có lỗi khi đọc file: {ex.Message}");
+            }
+            return false; // MSSV không tồn tại
+        }
 
-                     sinhVienCount++;
-                 }
-             }
-         }
-     }
-     catch (Exception ex)
-     {
-         Console.WriteLine("Lỗi khi đọc file SinhVien.txt: " + ex.Message);
-     }
- }
+        static void ThemSinhVien()
+        {
+            if (sinhVienCount >= sinhViens.GetLength(0))
+            {
+                Console.WriteLine("Danh sách sinh viên đã đầy!");
+                return;
+            }
 
+            Console.WriteLine("=== Thêm Sinh Viên ===");
 
- // Kiểm tra xem MSSV đã tồn tại trong file chưa
- static bool MSSVExist(string mssv)
- {
-     try
-     {
-         // Đọc tất cả các dòng từ file
-         string[] lines = File.ReadAllLines(fileName);
+            // Nhập MSSV
+            string mssv;
+            while (true)
+            {
+                try
+                {
+                    Console.Write("MSSV (8 số): ");
+                    mssv = Console.ReadLine();
 
-         foreach (string line in lines)
-         {
-             string[] data = line.Split(',');
-             if (data[0] == mssv) // Kiểm tra MSSV đã tồn tại trong file
-             {
-                 return true; // MSSV đã tồn tại
-             }
-         }
-     }
-     catch (IOException ex)
-     {
-         Console.WriteLine($"Đã có lỗi khi đọc file: {ex.Message}");
-     }
-     return false; // MSSV không tồn tại
- }
+                    // Kiểm tra xem MSSV đã tồn tại trong file chưa
+                    if (MSSVExist(mssv))
+                    {
+                        Console.WriteLine("Dữ liệu sinh viên đã tồn tại. Vui lòng nhập MSSV khác.");
+                        continue;
+                    }
 
- static void ThemSinhVien()
- {
-     if (sinhVienCount >= sinhViens.GetLength(0))
-     {
-         Console.WriteLine("Danh sách sinh viên đã đầy!");
-         return;
-     }
+                    if (mssv.Length != 8 || !mssv.All(char.IsDigit))
+                    {
+                        throw new Exception("MSSV phải có 8 số. Vui lòng nhập lại.");
+                    }
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            sinhViens[sinhVienCount, 0] = mssv;
 
-     Console.WriteLine("=== Thêm Sinh Viên ===");
+            // Nhập Lớp
+            string lop;
+            while (true)
+            {
+                Console.Write("Lớp (Ví dụ: EEP001): ");
+                lop = Console.ReadLine();
+                if (lop.Length == 6 && lop.Substring(0, 3).All(char.IsLetter) && lop.Substring(3, 3).All(char.IsDigit))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Lớp phải có định dạng '3 chữ cái + 3 số'. Vui lòng nhập lại.");
+                }
+            }
+            sinhViens[sinhVienCount, 1] = lop;
 
-     // Nhập MSSV
-     string mssv;
-     while (true)
-     {
-         try
-         {
-             Console.Write("MSSV (8 số): ");
-             mssv = Console.ReadLine();
+            // Nhập Họ Tên
+            string hoTen;
+            while (true)
+            {
+                Console.Write("Họ Tên: ");
+                hoTen = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(hoTen))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Họ tên không thể để trống. Vui lòng nhập lại.");
+                }
+            }
+            sinhViens[sinhVienCount, 2] = hoTen;
 
-             // Kiểm tra xem MSSV đã tồn tại trong file chưa
-             if (MSSVExist(mssv))
-             {
-                 Console.WriteLine("Dữ liệu sinh viên đã tồn tại. Vui lòng nhập MSSV khác.");
-                 continue;
-             }
+            // Nhập Ngày Sinh
+            string ngaySinh;
+            while (true)
+            {
+                Console.Write("Ngày Sinh (DD/MM/YYYY): ");
+                ngaySinh = Console.ReadLine();
+                if (DateTime.TryParseExact(ngaySinh, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out _))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Ngày sinh không hợp lệ. Vui lòng nhập lại theo định dạng DD/MM/YYYY.");
+                }
+            }
+            sinhViens[sinhVienCount, 3] = ngaySinh;
 
-             if (mssv.Length != 8 || !mssv.All(char.IsDigit))
-             {
-                 throw new Exception("MSSV phải có 8 số. Vui lòng nhập lại.");
-             }
-             break;
-         }
-         catch (Exception ex)
-         {
-             Console.WriteLine(ex.Message);
-         }
-     }
-     sinhViens[sinhVienCount, 0] = mssv;
+            // Nhập Nơi Sinh
+            string noiSinh;
+            while (true)
+            {
+                Console.Write("Nơi Sinh: ");
+                noiSinh = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(noiSinh))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Nơi sinh không thể để trống. Vui lòng nhập lại.");
+                }
+            }
+            sinhViens[sinhVienCount, 4] = noiSinh;
 
-     // Nhập Lớp
-     string lop;
-     while (true)
-     {
-         Console.Write("Lớp (Ví dụ: EEP001): ");
-         lop = Console.ReadLine();
-         if (lop.Length == 6 && lop.Substring(0, 3).All(char.IsLetter) && lop.Substring(3, 3).All(char.IsDigit))
-         {
-             break;
-         }
-         else
-         {
-             Console.WriteLine("Lớp phải có định dạng '3 chữ cái + 3 số'. Vui lòng nhập lại.");
-         }
-     }
-     sinhViens[sinhVienCount, 1] = lop;
+            // Nhập Giới Tính
+            string gioiTinh;
+            while (true)
+            {
+                Console.Write("Giới Tính (Nam/Nữ): ");
+                gioiTinh = Console.ReadLine();
+                if (gioiTinh.ToLower() == "nam" || gioiTinh.ToLower() == "nữ")
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Giới tính phải là 'Nam' hoặc 'Nữ'. Vui lòng nhập lại.");
+                }
+            }
+            sinhViens[sinhVienCount, 5] = gioiTinh;
 
-     // Nhập Họ Tên
-     string hoTen;
-     while (true)
-     {
-         Console.Write("Họ Tên: ");
-         hoTen = Console.ReadLine();
-         if (!string.IsNullOrWhiteSpace(hoTen))
-         {
-             break;
-         }
-         else
-         {
-             Console.WriteLine("Họ tên không thể để trống. Vui lòng nhập lại.");
-         }
-     }
-     sinhViens[sinhVienCount, 2] = hoTen;
+            // Nhập Điểm Trung Bình
+            double dtb;
+            while (true)
+            {
+                Console.Write("Điểm Trung Bình (ĐTB, từ 1 đến 10): ");
+                string dtbInput = Console.ReadLine();
+                if (double.TryParse(dtbInput, out dtb) && dtb >= 1 && dtb <= 10)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Điểm Trung Bình phải từ 1 đến 10. Vui lòng nhập lại.");
+                }
+            }
+            sinhViens[sinhVienCount, 6] = dtb.ToString();
 
-     // Nhập Ngày Sinh
-     string ngaySinh;
-     while (true)
-     {
-         Console.Write("Ngày Sinh (DD/MM/YYYY): ");
-         ngaySinh = Console.ReadLine();
-         if (DateTime.TryParseExact(ngaySinh, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out _))
-         {
-             break;
-         }
-         else
-         {
-             Console.WriteLine("Ngày sinh không hợp lệ. Vui lòng nhập lại theo định dạng DD/MM/YYYY.");
-         }
-     }
-     sinhViens[sinhVienCount, 3] = ngaySinh;
+            // Nhập Điểm Rèn Luyện
+            int drl;
+            while (true)
+            {
+                Console.Write("Điểm Rèn Luyện (ĐRL, từ 50 đến 100): ");
+                string drlInput = Console.ReadLine();
+                if (int.TryParse(drlInput, out drl) && drl >= 50 && drl <= 100)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Điểm Rèn Luyện phải từ 50 đến 100. Vui lòng nhập lại.");
+                }
+            }
+            sinhViens[sinhVienCount, 7] = drl.ToString();
 
-     // Nhập Nơi Sinh
-     string noiSinh;
-     while (true)
-     {
-         Console.Write("Nơi Sinh: ");
-         noiSinh = Console.ReadLine();
-         if (!string.IsNullOrWhiteSpace(noiSinh))
-         {
-             break;
-         }
-         else
-         {
-             Console.WriteLine("Nơi sinh không thể để trống. Vui lòng nhập lại.");
-         }
-     }
-     sinhViens[sinhVienCount, 4] = noiSinh;
+            sinhVienCount++;
+            Console.WriteLine("Thêm sinh viên thành công!");
 
-     // Nhập Giới Tính
-     string gioiTinh;
-     while (true)
-     {
-         Console.Write("Giới Tính (Nam/Nữ): ");
-         gioiTinh = Console.ReadLine();
-         if (gioiTinh.ToLower() == "nam" || gioiTinh.ToLower() == "nữ")
-         {
-             break;
-         }
-         else
-         {
-             Console.WriteLine("Giới tính phải là 'Nam' hoặc 'Nữ'. Vui lòng nhập lại.");
-         }
-     }
-     sinhViens[sinhVienCount, 5] = gioiTinh;
-
-     // Nhập Điểm Trung Bình
-     double dtb;
-     while (true)
-     {
-         Console.Write("Điểm Trung Bình (ĐTB, từ 1 đến 10): ");
-         string dtbInput = Console.ReadLine();
-         if (double.TryParse(dtbInput, out dtb) && dtb >= 1 && dtb <= 10)
-         {
-             break;
-         }
-         else
-         {
-             Console.WriteLine("Điểm Trung Bình phải từ 1 đến 10. Vui lòng nhập lại.");
-         }
-     }
-     sinhViens[sinhVienCount, 6] = dtb.ToString();
-
-     // Nhập Điểm Rèn Luyện
-     int drl;
-     while (true)
-     {
-         Console.Write("Điểm Rèn Luyện (ĐRL, từ 50 đến 100): ");
-         string drlInput = Console.ReadLine();
-         if (int.TryParse(drlInput, out drl) && drl >= 50 && drl <= 100)
-         {
-             break;
-         }
-         else
-         {
-             Console.WriteLine("Điểm Rèn Luyện phải từ 50 đến 100. Vui lòng nhập lại.");
-         }
-     }
-     sinhViens[sinhVienCount, 7] = drl.ToString();
-
-     sinhVienCount++;
-     Console.WriteLine("Thêm sinh viên thành công!");
-
-     // Cập nhật vào file SinhVien.txt
-     GhiFileSinhVien();
- }
+            // Cập nhật vào file SinhVien.txt
+            GhiFileSinhVien();
+        }
 
 
- static void GhiFileSinhVien()
- {
-     try
-     {
-         using (StreamWriter sw = new StreamWriter(fileName))
-         {
-             for (int i = 0; i < sinhVienCount; i++)
-             {
-                 sw.WriteLine($"{sinhViens[i, 0]},{sinhViens[i, 1]},{sinhViens[i, 2]},{sinhViens[i, 3]},{sinhViens[i, 4]},{sinhViens[i, 5]},{sinhViens[i, 6]},{sinhViens[i, 7]}");
-             }
-         }
-     }
-     catch (Exception ex)
-     {
-         Console.WriteLine("Lỗi khi ghi file SinhVien.txt: " + ex.Message);
-     }
- }
+        static void GhiFileSinhVien()
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(fileName))
+                {
+                    for (int i = 0; i < sinhVienCount; i++)
+                    {
+                        sw.WriteLine($"{sinhViens[i, 0]},{sinhViens[i, 1]},{sinhViens[i, 2]},{sinhViens[i, 3]},{sinhViens[i, 4]},{sinhViens[i, 5]},{sinhViens[i, 6]},{sinhViens[i, 7]}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi khi ghi file SinhVien.txt: " + ex.Message);
+            }
+        }
 
         static void XemDanhSachSinhVien()
         {
@@ -350,7 +349,7 @@ namespace QuanLySinhVien
             }
         }
 
-       static void SuaSinhVien()
+        static void SuaSinhVien()
         {
             int index = -1;
             while (true)
@@ -450,7 +449,7 @@ namespace QuanLySinhVien
                     //Kiểm tra điểm trung bình phải là số dương và nhỏ hơn 10
                     string dtb = Console.ReadLine();
                     double Dtb = double.Parse(dtb);
-                    if (Dtb >10 | Dtb < 0)
+                    if (Dtb > 10 | Dtb < 0)
                     {
                         Console.WriteLine("Điểm trung bình không hợp lệ.");
                     }
@@ -467,7 +466,7 @@ namespace QuanLySinhVien
                     Console.WriteLine("Điểm trung bình không đúng định dạng. Phải là số");
                 }
             }
-            
+
             //Nhập điểm trung bình
             Console.Write("Điểm Rèn Luyện (DRL): ");
             while (true)
@@ -577,7 +576,7 @@ namespace QuanLySinhVien
 
             return -1;
         }
- static void XetLoaiTotNghiep(string a)
+        static void XetLoaiTotNghiep(string a)
         {
             //Khai báo các biến
             double DTB = double.Parse(a);
@@ -585,23 +584,23 @@ namespace QuanLySinhVien
             //Đổi điểm trung bình của sinh viên sang hệ 4
             double Diem = XetDiemCot4(DTB);
             //Đánh giá hạng tốt nghiệp dựa trên điểm trung bình
-            if (Diem == 4) 
-            { 
+            if (Diem == 4)
+            {
                 LoaiTotNghiep = "Xuất sắc";
                 Console.WriteLine($"Với điểm trung bình hiện tại, loại tốt nghiệp tạm thời của bạn là {LoaiTotNghiep}! Hãy cố gắng học tập nhé!");
             }
-            else if (Diem == 3.5) 
-            { 
+            else if (Diem == 3.5)
+            {
                 LoaiTotNghiep = "Giỏi";
                 Console.WriteLine($"Với điểm trung bình hiện tại, loại tốt nghiệp tạm thời của bạn là {LoaiTotNghiep}! Hãy cố gắng học tập nhé!");
             }
-            else if (Diem ==3|  Diem == 2.5)
-            { 
+            else if (Diem == 3 | Diem == 2.5)
+            {
                 LoaiTotNghiep = "Khá";
                 Console.WriteLine($"Với điểm trung bình hiện tại, loại tốt nghiệp tạm thời của bạn là {LoaiTotNghiep}! Hãy cố gắng học tập nhé!");
             }
-            else if (Diem == 2) 
-            { 
+            else if (Diem == 2)
+            {
                 LoaiTotNghiep = "Trung bình";
                 Console.WriteLine($"Với điểm trung bình hiện tại, loại tốt nghiệp tạm thời của bạn là {LoaiTotNghiep}! Hãy cố gắng học tập nhé!");
             }
@@ -650,3 +649,4 @@ namespace QuanLySinhVien
         }
     }
 }
+
