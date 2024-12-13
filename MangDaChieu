@@ -23,33 +23,41 @@ namespace QuanLySinhVien
 
              switch (choice)
              {
-                 case "1":
-                     ThemSinhVien();
-                     break;
+                 {
+                        case "1":
+                            ThemSinhVien();
+                            break;
 
-                 case "2":
-                     XemDanhSachSinhVien();
-                     break;
+                        case "2":
+                            XoaSinhVien();
+                            break;
 
-                 case "3":
-                     SuaSinhVien();
-                     break;
+                        case "3":
+                            SuaSinhVien();
+                            break;
 
-                 case "4":
-                     XoaSinhVien();
-                     break;
+                        case "4":
+                            XemSinhVien();
+                            break;
 
-                 case "5":
-                     XuatDanhSachHocBong();
-                     break;
+                        case "5":
+                            XuatDanhSachHocBong();
+                            break;
 
-                 case "6":
-                     Console.WriteLine("Thoát chương trình.");
-                     return;
+                        case "6":
+                            XepLoaiTotNghiep();
+                            break;
 
-                 default:
-                     Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng thử lại!");
-                     break;
+                        case "7":
+                            Console.Clear();
+                            Console.WriteLine("Chúc bạn học tốt!");
+                            Environment.Exit(0);
+                            break;
+
+                        default:
+                            Console.WriteLine("Lựa chọn không hợp lệ, vui lòng thử lại!");
+                            break;
+                    }
              }
 
              Console.WriteLine("\nNhấn phím bất kỳ để quay lại menu...");
