@@ -1,45 +1,45 @@
-MSSV|Lớp SV|Họ Tên|Ngày Sinh|Nơi Sinh|Giới Tính|ĐTB|ĐRL
-31211234|EEP001|Nguyễn Văn An|1/15/2003|Hà Nội|Nam|8.0|85
-31222341|IT0002|Trần Thị Bích|3/22/2004|TP. HCM|Nữ|9.0|90
-31211287|EEP003|Lê Hoàng Cảnh|2/11/2003|Đà Nẵng|Nam|7.5|78
-31222358|IT0004|Phạm Hồng Duyên|5/18/2004|Cần Thơ|Nữ|9.5|92
-31211296|EEP005|Võ Thanh Danh|9/29/2003|Đồng Nai|Nam|7.5|80
-31222342|IT0006|Nguyễn Thị Em|7/1/2004|Quảng Ninh|Nữ|7.0|70
-31211265|EEP007|Hoàng Văn Phúc|10/10/2003|Hải Phòng|Nam|7.5|75
-31222391|IT0008|Đặng Ngọc Hòa|4/5/2004|Bắc Giang|Nữ|8.5|88
-31211278|EEP009|Bùi Văn Đạt|6/25/2003|Lâm Đồng|Nam|7.5|82
-31222376|IT0010|Phạm Thị Hoa|12/20/2004|Bình Thuận|Nữ|9.0|91
-31211211|EEP011|Trần Văn Minh|11/11/2003|Bình Dương|Nam|8.0|84
-31222388|IT0012|Nguyễn Minh Long|8/8/2004|Kiên Giang|Nữ|8.5|86
-31232345|EEP013|Võ Thị Xuân|1/30/2005|An Giang|Nữ|7.5|72
-31211298|IT0014|Lê Thanh Nam|9/9/2003|Phú Yên|Nam|7.5|77
-31222354|EEP015|Trần Quốc Trung|3/3/2004|Vĩnh Phúc|Nam|9.0|89
-31211283|IT0016|Phạm Thị Bảo|7/7/2003|Thanh Hóa|Nữ|7.5|76
-31222367|EEP017|Hoàng Văn Tân|6/6/2004|Nghệ An|Nam|7.5|83
-31211249|IT0018|Nguyễn Thị Lan|12/12/2003|Nam Định|Nữ|8.5|87
-31232351|EEP019|Đặng Văn Tùng|2/2/2005|Ninh Bình|Nam|7.0|74
-31211257|IT0020|Phạm Thị Trà|10/25/2003|Hà Tĩnh|Nữ|8.0|81
-31222385|EEP021|Trần Thanh An|6/19/2004|Hậu Giang|Nam|7.5|76
-31232352|IT0022|Nguyễn Hải Tùng|11/12/2005|Bến Tre|Nữ|9.0|90
-31211235|EEP023|Lê Thị Hoa|11/15/2003|Quảng Nam|Nữ|8.0|84
-31222393|IT0024|Bùi Thế Duy|9/10/2004|Hà Nội|Nam|8.5|88
-31211271|EEP025|Trần Đình Tuấn|8/30/2003|Thái Nguyên|Nam|7.5|80
-31222359|IT0026|Nguyễn Thị Thảo|2/22/2004|Hải Dương|Nữ|8.0|81
-31211245|EEP027|Lê Minh Tâm|7/11/2003|Bình Định|Nam|7.5|78
-31222362|IT0028|Hoàng Thị Tuyết|3/30/2004|Bà Rịa-Vũng Tàu|Nữ|8.5|85
-31211274|EEP029|Nguyễn Thị Quỳnh|6/2/2003|Quảng Trị|Nữ|7.5|79
-31222380|IT0030|Trương Đình Khoa|12/25/2004|Bình Thuận|Nam|8.5|84
-31211256|EEP031|Phạm Thị Lan|10/1/2003|Bình Dương|Nữ|7.5|80
-31222372|IT0032|Lê Minh Tùng|4/18/2004|Quảng Nam|Nam|9.0|90
-31211231|EEP033|Trần Thị Lan|5/25/2003|Hà Nội|Nữ|7.5|82
-31222355|IT0034|Nguyễn Văn Thực|11/12/2004|Lâm Đồng|Nam|7.5|75
-31211267|EEP035|Bùi Thị Hòa|7/15/2003|Bình Thuận|Nữ|7.5|78
-31222363|IT0036|Phạm Hoàng Thanh|3/2/2004|Hà Giang|Nam|8.5|82
-31211250|EEP037|Trần Văn Hoàn|8/8/2003|Lạng Sơn|Nam|8.0|83
-31222369|IT0038|Hoàng Thị Lan|9/3/2004|Nghệ An|Nữ|8.5|86
-31211290|EEP039|Nguyễn Thị Kiều|10/17/2003|Cần Thơ|Nữ|7.5|79
-31222368|IT0040|Bùi Quang Đức|6/14/2004|Vĩnh Phúc|Nam|7.5|77
-31211286|EEP041|Trương Thị Đan|3/20/2003|Thanh Hóa|Nữ|8.0|85
-31222356|IT0042|Phan Quang Hùng|5/10/2004|Nam Định|Nam|8.5|84
-31211253|EEP043|Nguyễn Thị Thủy|4/1/2003|Bình Phước|Nữ|7.5|78
-31222381|IT0044|Lê Thị Thanh|12/17/2004|Bình Định|Nữ|9.0|91
+MSSV | Lớp SV | Họ Tên | Ngày Sinh | Nơi Sinh | Giới Tính | ĐTB | ĐRL
+31211234 | EEP001 | Nguyễn Văn An | 15/01/2003 | Hà Nội | Nam | 8.0 | 85
+31222341 | ITT001 | Trần Thị Bích | 22/03/2004 | TP. HCM | Nữ | 9.0 | 90
+31211287 | EEP003 | Lê Hoàng Cảnh | 11/02/2003 | Đà Nẵng | Nam | 7.5 | 78
+31222358 | ITT002 | Phạm Hồng Duyên | 18/05/2004 | Cần Thơ | Nữ | 9.5 | 92
+31211296 | EEP005 | Võ Thanh Danh | 29/09/2003 | Đồng Nai | Nam | 7.5 | 80
+31222342 | AUP001 | Nguyễn Thị Em | 01/07/2004 | Quảng Ninh | Nữ | 7.0 | 70
+31211265 | ITT003 | Hoàng Văn Phúc | 10/10/2003 | Hải Phòng | Nam | 7.5 | 75
+31222391 | KNP001 | Đặng Ngọc Hòa | 05/04/2004 | Bắc Giang | Nữ | 8.5 | 88
+31211278 | MRC001 | Bùi Văn Đạt | 25/06/2003 | Lâm Đồng | Nam | 7.5 | 82
+31222376 | IBF001 | Phạm Thị Hoa | 20/12/2004 | Bình Thuận | Nữ | 9.0 | 91
+31211211 | EEP011 | Trần Văn Minh | 11/11/2003 | Bình Dương | Nam | 8.0 | 84
+31222388 | ITT004 | Nguyễn Minh Long | 08/08/2004 | Kiên Giang | Nữ | 8.5 | 86
+31232345 | EEP013 | Võ Thị Xuân | 30/01/2005 | An Giang | Nữ | 7.5 | 72
+31211298 | ITT005 | Lê Thanh Nam | 09/09/2003 | Phú Yên | Nam | 7.5 | 77
+31222354 | AUP002 | Trần Quốc Trung | 03/03/2004 | Vĩnh Phúc | Nam | 9.0 | 89
+31211283 | KNP002 | Phạm Thị Bảo | 07/07/2003 | Thanh Hóa | Nữ | 7.5 | 76
+31222367 | ITT006 | Hoàng Văn Tân | 06/06/2004 | Nghệ An | Nam | 7.5 | 83
+31211249 | IBF002 | Nguyễn Thị Lan | 12/12/2003 | Nam Định | Nữ | 8.5 | 87
+31232351 | EEP019 | Đặng Văn Tùng | 02/02/2005 | Ninh Bình | Nam | 7.0 | 74
+31211257 | ITT007 | Phạm Thị Trà | 25/10/2003 | Hà Tĩnh | Nữ | 8.0 | 81
+31222385 | EEP021 | Trần Thanh An | 19/06/2004 | Hậu Giang | Nam | 7.5 | 76
+31232352 | KNP003 | Nguyễn Hải Tùng | 12/11/2005 | Bến Tre | Nữ | 9.0 | 90
+31211235 | EEP023 | Lê Thị Hoa | 15/11/2003 | Quảng Nam | Nữ | 8.0 | 84
+31222393 | ITT008 | Bùi Thế Duy | 10/09/2004 | Hà Nội | Nam | 8.5 | 88
+31211271 | AUP003 | Trần Đình Tuấn | 30/08/2003 | Thái Nguyên | Nam | 7.5 | 80
+31222359 | KNP004 | Nguyễn Thị Thảo | 22/02/2004 | Hải Dương | Nữ | 8.0 | 81
+31211245 | MRC002 | Lê Minh Tâm | 11/07/2003 | Bình Định | Nam | 7.5 | 78
+31222362 | ITT009 | Hoàng Thị Tuyết | 30/03/2004 | Bà Rịa-Vũng Tàu | Nữ | 8.5 | 85
+31211274 | IBF003 | Nguyễn Thị Quỳnh | 02/06/2003 | Quảng Trị | Nữ | 7.5 | 79
+31222380 | EEP029 | Trương Đình Khoa | 25/12/2004 | Bình Thuận | Nam | 8.5 | 84
+31211256 | AUP004 | Phạm Thị Lan | 01/10/2003 | Bình Dương | Nữ | 7.5 | 80
+31222372 | KNP005 | Lê Minh Tùng | 18/04/2004 | Quảng Nam | Nam | 9.0 | 90
+31211231 | ITT010 | Trần Thị Lan | 25/05/2003 | Hà Nội | Nữ | 7.5 | 82
+31222355 | IBF004 | Nguyễn Văn Thực | 12/11/2004 | Lâm Đồng | Nam | 7.5 | 75
+31211267 | AUP005 | Bùi Thị Hòa | 15/07/2003 | Bình Thuận | Nữ | 7.5 | 78
+31222363 | KNP006 | Phạm Hoàng Thanh | 02/03/2004 | Hà Giang | Nam | 8.5 | 82
+31211250 | EEP037 | Trần Văn Hoàn | 08/08/2003 | Lạng Sơn | Nam | 8.0 | 83
+31222369 | ITT011 | Hoàng Thị Lan | 03/09/2004 | Nghệ An | Nữ | 8.5 | 86
+31211290 | MRC003 | Nguyễn Thị Kiều | 17/10/2003 | Cần Thơ | Nữ | 7.5 | 79
+31222368 | IBF005 | Bùi Quang Đức | 14/06/2004 | Vĩnh Phúc | Nam | 7.5 | 77
+31211286 | EEP041 | Trương Thị Đan | 20/03/2003 | Thanh Hóa | Nữ | 8.0 | 85
+31222356 | AUP006 | Phan Quang Hùng | 10/05/2004 | Nam Định | Nam | 8.5 | 84
+31211253 | KNP007 | Nguyễn Thị Thủy | 01/04/2003 | Bình Phước | Nữ | 7.5 | 78
+31222381 | ITT012 | Lê Thị Thanh | 17/12/2004 | Bình Định | Nữ | 9.0 | 91
