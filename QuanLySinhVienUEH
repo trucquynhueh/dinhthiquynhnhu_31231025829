@@ -336,15 +336,15 @@ namespace QuanLySinhVienUeh
                 });
 
                 // Tạo các nhóm dựa vào MSSV
-                var khoa49 = new List<SinhVien>();
-                var khoa48 = new List<SinhVien>();
-                var khoa47 = new List<SinhVien>();
+                string[,] khoa49 = LocSinhVienTheoKhoa("3123");
+    string[,] khoa48 = LocSinhVienTheoKhoa("3122");
+    string[,] khoa47 = LocSinhVienTheoKhoa("3121");
 
                 // Phân loại sinh viên vào các nhóm
                 foreach (var sv in sinhViens)
                 {
                     if (sv.MSSV.StartsWith("3123"))
-                        khoa49.Add(sv);
+                        khoa49.Add(sv); 
                     else if (sv.MSSV.StartsWith("3122"))
                         khoa48.Add(sv);
                     else if (sv.MSSV.StartsWith("3121"))
@@ -358,9 +358,9 @@ namespace QuanLySinhVienUeh
                 int scholarshipSlotsKhoa47 = rand.Next(8, 10);
 
                 // Cấp học bổng cho mỗi khóa
-                List<SinhVien> khoa49HocBong = CapHocBong(khoa49, scholarshipSlotsKhoa49);
-                List<SinhVien> khoa48HocBong = CapHocBong(khoa48, scholarshipSlotsKhoa48);
-                List<SinhVien> khoa47HocBong = CapHocBong(khoa47, scholarshipSlotsKhoa47);
+string[,] khoa49HocBong = CapHocBong(khoa49, scholarshipSlotsKhoa49);
+    string[,] khoa48HocBong = CapHocBong(khoa48, scholarshipSlotsKhoa48);
+    string[,] khoa47HocBong = CapHocBong(khoa47, scholarshipSlotsKhoa47);
 
                 // Ghi danh sách vào file và in ra console
                 using (StreamWriter writer = new StreamWriter("ketQuaHocBong.txt"))
@@ -425,22 +425,29 @@ namespace QuanLySinhVienUeh
             }
 
             // Hàm cấp học bổng cho mỗi khóa
-            static List<SinhVien> CapHocBong(List<SinhVien> sinhViens, int scholarshipSlots)
+static string[,] CapHocBong(string[,] sinhViens, int scholarshipSlots)
             {
-                var awardedStudents = new List<SinhVien>();
+                string[,] ketQua = new string[scholarshipSlots, 8];
+    int index = 0;
 
-                foreach (var sv in sinhViens)
-                {
-                    if (awardedStudents.Count >= scholarshipSlots) break;
+    for (int i = 0; i < sinhViens.GetLength(0); i++)
+    {
+        if (index >= scholarshipSlots || sinhViens[i, 0] == null) break;
 
-                    string loaiHocBong = XetLoaiHocBong(sv.DTB, sv.DRL);
-                    if (loaiHocBong != "Không đủ điều kiện")
-                    {
-                        awardedStudents.Add(sv);
-                    }
-                }
+        double dtb = double.Parse(sinhViens[i, 3]);
+        int drl = int.Parse(sinhViens[i, 4]);
+        string loaiHocBong = XetLoaiHocBong(dtb, drl);
 
-                return awardedStudents;
+        if (loaiHocBong != "Không đủ điều kiện")
+        {
+            for (int j = 0; j < 8; j++)
+                ketQua[index, j] = sinhViens[i, j];
+            ketQua[index, 7] = loaiHocBong; // Cập nhật loại học bổng
+            index++;
+        }
+    }
+
+    return ketQua;
             }
             // Hàm tính điểm hệ 4 (không thay đổi)
             static double XetDiemCot4(double b)
