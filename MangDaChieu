@@ -831,16 +831,24 @@ static string XetLoaiHocBong(double dtb, int drl)
 
         static int TimSinhVien(string mssv)
         {
-            for (int i = 0; i < sinhVienCount; i++)
+            mssv = mssv.Trim();  // Loại bỏ khoảng trắng trước và sau
+
+            // Đọc tất cả dòng từ file SinhVien.txt
+            string[] lines = File.ReadAllLines("SinhVien.txt");
+
+            // Duyệt qua các dòng trong file để tìm MSSV
+            for (int i = 0; i < lines.Length; i++)
             {
-                // Tìm sinh viên trong mảng sinhViens
-                if (sinhViens[i, 0] == mssv)
+                string[] fields = lines[i].Split('|');  // Tách các trường trong dòng (giả sử bạn sử dụng dấu "|" để phân cách các trường)
+
+                // Kiểm tra nếu MSSV trong file trùng khớp với mssv
+                if (fields[0].Trim() == mssv)  // Loại bỏ khoảng trắng trong MSSV từ file
                 {
-                    return i; // Trả về chỉ số sinh viên
+                    return i; // Trả về chỉ số sinh viên trong file
                 }
             }
 
-            return -1; // Không tìm thấy
+            return -1; // Không tìm thấy sinh viên với MSSV này
         }
         static void XetLoaiTotNghiep(string a)
         {
