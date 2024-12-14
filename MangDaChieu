@@ -579,53 +579,56 @@ namespace QuanLySinhVienUEH
         }
 
         static void XoaSinhVien()
+{
+    int index = -1;
+    while (true)
+    {
+        try
         {
-            int index = -1;
-            while (true)
+            // Nhập MSSV. Kiểm tra cấu trúc của MSSV phải gồm 8 chữ số
+            Console.Write("Nhập MSSV của sinh viên cần sửa: ");
+            string mssv = Console.ReadLine();
+            long StudentID = long.Parse(mssv);
+            if (mssv.Length != 8 )
             {
-                try
-                {
-                    //Nhập MSSV. Kiếm tra cấu trúc của MSSV phải gồm 8 chữ số
-                    Console.Write("Nhập MSSV của sinh viên cần sửa: ");
-                    string mssv = Console.ReadLine();
-                    long StudentID = long.Parse(mssv);
-                    if (mssv.Length != 8)
-                    {
-                        throw new ArgumentException("Mã số sinh viên phải bao gồm đúng 8 chữ số.");
-                    }
-                    else
-                    {
-                        index = TimSinhVien(mssv);
-                        break;
-                    }
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Mã số sinh viên phải là số nguyên");
-                }
-
-            }
-            //Tìm sinh viên dựa trên mã số, nếu không có thì thông báo
-            if (index == -1)
-            {
-                Console.WriteLine("Không tìm thấy sinh viên với MSSV này.");
-                return;
+                throw new ArgumentException("Mã số sinh viên phải bao gồm đúng 8 chữ số.");
             }
             else
             {
-                // Dịch các phần tử phía sau lên một hàng
-                for (int i = index; i < sinhVienCount - 1; i++)
-                {
-                    for (int j = 0; j < 8; j++)
-                    {
-                        sinhViens[i, j] = sinhViens[i + 1, j];
-                    }
-                }
-                //Xóa hàng cuối cùng, bây giờ là hàng có thông tin của sinh viên cần xóa
-                sinhVienCount--;
-                Console.WriteLine("Xóa sinh viên thành công!");
+                index = TimSinhVien(mssv);
+                break;
             }
         }
+        catch (FormatException)
+        {
+            Console.WriteLine("Mã số sinh viên phải là số nguyên");
+        }
+    }
+
+    // Tìm sinh viên dựa trên mã số, nếu không có thì thông báo
+    if (index == -1)
+    {
+        Console.WriteLine("Không tìm thấy sinh viên với MSSV này.");
+        return;
+    }
+    else
+    {
+        // Dịch các phần tử phía sau lên một hàng
+        for (int i = index; i < sinhVienCount - 1; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                sinhViens[i, j] = sinhViens[i + 1, j];
+            }
+        }
+        // Xóa hàng cuối cùng, bây giờ là hàng có thông tin của sinh viên cần xóa
+        sinhVienCount--;
+        Console.WriteLine("Xóa sinh viên thành công!");
+
+        // Ghi lại toàn bộ dữ liệu vào file
+        GhiFileSinhVien();
+    }
+}
 
         static void XuatDanhSachHocBong()
 {
