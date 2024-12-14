@@ -10,7 +10,7 @@ namespace QuanLySinhVienUEH
 {
     internal class Program
     {
-        static string[,] sinhViens = new string[100, 8]; // Mảng lưu danh sách sinh viên (tối đa 100 sinh viên)
+        static string[,] sinhViens = new string[1000, 8]; // Mảng lưu danh sách sinh viên (tối đa 100 sinh viên)
         static int sinhVienCount = 0; // Số lượng sinh viên hiện tại
         static string fileName = "SinhVien.txt"; // Đường dẫn đến file
         static void Main(string[] args)
