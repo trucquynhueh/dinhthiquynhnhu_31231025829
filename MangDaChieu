@@ -780,15 +780,14 @@ static string XetLoaiHocBong(double dtb, int drl)
         {
             for (int i = 0; i < sinhVienCount; i++)
             {
-                //Tìm sinh viên dựa trên mã số sinh viên
+                // Tìm sinh viên trong mảng sinhViens
                 if (sinhViens[i, 0] == mssv)
                 {
-                    //Trả lại số hàng của sinh viên đó trong mảng
-                    return i;
+                    return i; // Trả về chỉ số sinh viên
                 }
             }
 
-            return -1;
+            return -1; // Không tìm thấy
         }
         static void XetLoaiTotNghiep(string a)
         {
