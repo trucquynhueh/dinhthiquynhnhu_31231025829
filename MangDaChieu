@@ -44,10 +44,7 @@ namespace QuanLySinhVienUEH
                         break;
 
                     case "6":
-                        // Nhập điểm trung bình từ người dùng
-                        Console.Write("Nhập điểm trung bình của sinh viên: ");
-                        string diemTrungBinh = Console.ReadLine(); // Nhập điểm trung bình dưới dạng chuỗi
-                        XetLoaiTotNghiep(diemTrungBinh); // Truyền tham số vào hàm XetLoaiTotNghiep
+                        XetLoaiTotNghiep();
                         break;
 
                     case "7":
@@ -629,56 +626,63 @@ namespace QuanLySinhVienUEH
         }
 
         static void XoaSinhVien()
-{
-    int index = -1;
-    while (true)
-    {
-        try
         {
-            // Nhập MSSV. Kiểm tra cấu trúc của MSSV phải gồm 8 chữ số
-            Console.Write("Nhập MSSV của sinh viên cần sửa: ");
-            string mssv = Console.ReadLine();
-            long StudentID = long.Parse(mssv);
-            if (mssv.Length != 8 )
-            {
-                throw new ArgumentException("Mã số sinh viên phải bao gồm đúng 8 chữ số.");
-            }
-            else
-            {
-                index = TimSinhVien(mssv);
-                break;
-            }
-        }
-        catch (FormatException)
-        {
-            Console.WriteLine("Mã số sinh viên phải là số nguyên");
-        }
-    }
+            string mssv;
+            bool sinhVienTimThay = false;
 
-    // Tìm sinh viên dựa trên mã số, nếu không có thì thông báo
-    if (index == -1)
-    {
-        Console.WriteLine("Không tìm thấy sinh viên với MSSV này.");
-        return;
-    }
-    else
-    {
-        // Dịch các phần tử phía sau lên một hàng
-        for (int i = index; i < sinhVienCount - 1; i++)
-        {
-            for (int j = 0; j < 8; j++)
+            while (true)
             {
-                sinhViens[i, j] = sinhViens[i + 1, j];
-            }
-        }
-        // Xóa hàng cuối cùng, bây giờ là hàng có thông tin của sinh viên cần xóa
-        sinhVienCount--;
-        Console.WriteLine("Xóa sinh viên thành công!");
+                try
+                {
+                    // Nhập MSSV cần tìm
+                    Console.Write("Nhập MSSV của sinh viên cần xóa: ");
+                    mssv = Console.ReadLine();
 
-        // Ghi lại toàn bộ dữ liệu vào file
-        GhiFileSinhVien();
-    }
-}
+                    if (mssv.Length != 8 || !mssv.All(char.IsDigit))
+                    {
+                        Console.WriteLine("Mã số sinh viên phải bao gồm đúng 8 chữ số.");
+                        continue;
+                    }
+                    break;
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Mã số sinh viên phải là số nguyên");
+                }
+            }
+
+            // Đọc tất cả dòng từ file SinhVien.txt
+            string[] lines = File.ReadAllLines("SinhVien.txt");
+            List<string> updatedLines = new List<string>();
+
+            // Duyệt qua từng dòng trong file để tìm và xóa sinh viên
+            foreach (var line in lines)
+            {
+                string[] fields = line.Split('|');  // Tách các trường thông tin trong dòng
+
+                if (fields[0].Trim() == mssv)
+                {
+                    // Nếu tìm thấy MSSV trùng khớp, không thêm dòng này vào danh sách updatedLines
+                    sinhVienTimThay = true;
+                }
+                else
+                {
+                    updatedLines.Add(line);  // Thêm dòng không bị xóa vào danh sách
+                }
+            }
+
+            // Kiểm tra xem sinh viên có được tìm thấy không
+            if (!sinhVienTimThay)
+            {
+                Console.WriteLine("Không tìm thấy sinh viên với MSSV này.");
+                return;
+            }
+
+            // Ghi lại các dòng còn lại vào file
+            File.WriteAllLines("SinhVien.txt", updatedLines);
+
+            Console.WriteLine("Xóa sinh viên thành công!");
+        }
 
         static void XuatDanhSachHocBong()
 {
@@ -829,7 +833,7 @@ static string XetLoaiHocBong(double dtb, int drl)
         return "Không đủ điều kiện";
 }
 
-        static int TimSinhVien(string mssv)
+       static int TimSinhVien(string mssv)
         {
             mssv = mssv.Trim();  // Loại bỏ khoảng trắng trước và sau
 
@@ -850,38 +854,95 @@ static string XetLoaiHocBong(double dtb, int drl)
 
             return -1; // Không tìm thấy sinh viên với MSSV này
         }
-        static void XetLoaiTotNghiep(string a)
+        static void XetLoaiTotNghiep()
         {
-            //Khai báo các biến
-            double DTB = double.Parse(a);
-            string LoaiTotNghiep;
-            //Đổi điểm trung bình của sinh viên sang hệ 4
-            double Diem = XetDiemCot4(DTB);
-            //Đánh giá hạng tốt nghiệp dựa trên điểm trung bình
-            if (Diem == 4)
+            string mssv;
+            bool index = false;
+
+            while (true)
             {
-                LoaiTotNghiep = "Xuất sắc";
-                Console.WriteLine($"Với điểm trung bình hiện tại, loại tốt nghiệp tạm thời của bạn là {LoaiTotNghiep}! Hãy cố gắng học tập nhé!");
+                // Nhập MSSV. Kiểm tra cấu trúc của MSSV phải gồm 8 chữ số
+                Console.Write("Nhập MSSV của sinh viên cần tìm: ");
+                mssv = Console.ReadLine();
+
+                if (mssv.Length != 8 || !mssv.All(char.IsDigit))
+                {
+                    Console.WriteLine("Mã số sinh viên phải bao gồm đúng 8 chữ số.");
+                }
+                else
+                {
+                    // Kiểm tra MSSV có tồn tại trong danh sách sinh viên hay không
+                    index = MSSVExist(mssv);
+                    if (index)
+                        break;
+                    else
+                    {
+                        Console.WriteLine("Không tìm thấy sinh viên với MSSV này.");
+                        return;  // Nếu không tìm thấy trong danh sách, thoát hàm
+                    }
+                }
             }
-            else if (Diem == 3.5)
+
+            // Tìm sinh viên trong file SinhVien.txt và hiển thị thông tin
+            try
             {
-                LoaiTotNghiep = "Giỏi";
-                Console.WriteLine($"Với điểm trung bình hiện tại, loại tốt nghiệp tạm thời của bạn là {LoaiTotNghiep}! Hãy cố gắng học tập nhé!");
+                // Đọc tất cả dòng từ file SinhVien.txt
+                string[] lines = File.ReadAllLines("SinhVien.txt");
+
+                // Duyệt qua các dòng trong file để tìm thông tin sinh viên
+                bool found = false;  // Biến kiểm tra xem đã tìm thấy sinh viên chưa
+
+                foreach (var line in lines)
+                {
+                    string[] fields = line.Split('|');  // Tách các trường thông tin trong dòng
+
+                    // Tìm sinh viên có MSSV trùng khớp
+                    if (fields[0].Trim() == mssv)
+                    {
+                        // Lấy điểm trung bình từ file
+                        double diemTB = double.Parse(fields[6]);
+
+                        string LoaiTotNghiep;
+                        //Đổi điểm trung bình của sinh viên sang hệ 4
+                        double Diem = XetDiemCot4(diemTB);
+                        //Đánh giá hạng tốt nghiệp dựa trên điểm trung bình
+                        if (Diem == 4)
+                        {
+                            LoaiTotNghiep = "Xuất sắc";
+                            Console.WriteLine($"Với điểm trung bình hiện tại, loại tốt nghiệp tạm thời của bạn là {LoaiTotNghiep}! Hãy cố gắng học tập nhé!");
+                        }
+                        else if (Diem == 3.5)
+                        {
+                            LoaiTotNghiep = "Giỏi";
+                            Console.WriteLine($"Với điểm trung bình hiện tại, loại tốt nghiệp tạm thời của bạn là {LoaiTotNghiep}! Hãy cố gắng học tập nhé!");
+                        }
+                        else if (Diem == 3 | Diem == 2.5)
+                        {
+                            LoaiTotNghiep = "Khá";
+                            Console.WriteLine($"Với điểm trung bình hiện tại, loại tốt nghiệp tạm thời của bạn là {LoaiTotNghiep}! Hãy cố gắng học tập nhé!");
+                        }
+                        else if (Diem == 2)
+                        {
+                            LoaiTotNghiep = "Trung bình";
+                            Console.WriteLine($"Với điểm trung bình hiện tại, loại tốt nghiệp tạm thời của bạn là {LoaiTotNghiep}! Hãy cố gắng học tập nhé!");
+                        }
+                        else
+                        {
+                            //Nếu sinh viên chưa đủ điều kiện thì báo
+                            Console.WriteLine("Bạn chưa đủ điều kiện tốt nghiệp.");
+                        }
+                        // Nếu không tìm thấy MSSV trong file
+                        if (!found)
+                        {
+                            Console.WriteLine("Không tìm thấy sinh viên với MSSV này trong file.");
+                        }
+                    }
+                }
             }
-            else if (Diem == 3 | Diem == 2.5)
+                    catch (Exception ex)
             {
-                LoaiTotNghiep = "Khá";
-                Console.WriteLine($"Với điểm trung bình hiện tại, loại tốt nghiệp tạm thời của bạn là {LoaiTotNghiep}! Hãy cố gắng học tập nhé!");
-            }
-            else if (Diem == 2)
-            {
-                LoaiTotNghiep = "Trung bình";
-                Console.WriteLine($"Với điểm trung bình hiện tại, loại tốt nghiệp tạm thời của bạn là {LoaiTotNghiep}! Hãy cố gắng học tập nhé!");
-            }
-            else
-            {
-                //Nếu sinh viên chưa đủ điều kiện thì báo
-                Console.WriteLine("Bạn chưa đủ điều kiện tốt nghiệp.");
+                // Xử lý lỗi khi đọc file
+                Console.WriteLine("Lỗi khi đọc dữ liệu từ file: " + ex.Message);
             }
         }
         static double XetDiemCot4(double b)
