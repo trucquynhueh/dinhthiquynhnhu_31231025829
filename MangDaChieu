@@ -28,7 +28,7 @@ namespace QuanLySinhVienUEH
                         break;
 
                     case "2":
-                        XemDanhSachSinhVien();
+                        TimTTSinhVien();
                         break;
 
                     case "3":
@@ -71,7 +71,7 @@ namespace QuanLySinhVienUEH
             Console.WriteLine("            QUẢN LÝ SINH VIÊN UEH");
             Console.WriteLine("===============================================");
             Console.WriteLine("1. Thêm Sinh Viên");
-            Console.WriteLine("2. Xem Danh Sách Sinh Viên");
+            Console.WriteLine("2. Xem Thông Tin Sinh Viên");
             Console.WriteLine("3. Sửa Thông Tin Sinh Viên");
             Console.WriteLine("4. Xóa Sinh Viên");
             Console.WriteLine("5. Xuất Danh Sách Học Bổng");
@@ -328,24 +328,74 @@ namespace QuanLySinhVienUEH
             }
         }
 
-        static void XemDanhSachSinhVien()
+       static void TimTTSinhVien()
         {
-            Console.WriteLine("=== Danh Sách Sinh Viên ===");
-            if (sinhVienCount == 0)
+            string mssv;
+            bool index = false;
+
+            while (true)
             {
-                Console.WriteLine("Danh sách sinh viên trống!");
-                return;
+                // Nhập MSSV. Kiểm tra cấu trúc của MSSV phải gồm 8 chữ số
+                Console.Write("Nhập MSSV của sinh viên cần tìm: ");
+                mssv = Console.ReadLine();
+
+                if (mssv.Length != 8 || !mssv.All(char.IsDigit))
+                {
+                    Console.WriteLine("Mã số sinh viên phải bao gồm đúng 8 chữ số.");
+                }
+                else
+                {
+                    // Kiểm tra MSSV có tồn tại trong danh sách sinh viên hay không
+                    index = MSSVExist(mssv);
+                    if (index)
+                        break;
+                    else
+                    {
+                        Console.WriteLine("Không tìm thấy sinh viên với MSSV này.");
+                        return;
+                    }
+                }
             }
 
-            for (int i = 0; i < sinhVienCount; i++)
+            // Tìm sinh viên trong file SinhVien.txt và hiển thị thông tin
+            try
             {
-                //Đổi điểm hệ 10 sang hệ 4
-                double Diemtb = Double.Parse(sinhViens[i, 6]);
-                double DiemHe4 = XetDiemCot4(Diemtb);
-                //In ra thông tin sinh viên
-                Console.WriteLine($"MSSV: {sinhViens[i, 0]} | Lớp: {sinhViens[i, 1]} | Họ Tên: {sinhViens[i, 2]} | " +
-                                  $"Ngày Sinh: {sinhViens[i, 3]} | Nơi Sinh: {sinhViens[i, 4]} | Giới Tính: {sinhViens[i, 5]} | " +
-                                  $"DTB: {sinhViens[i, 6]} | DRL: {sinhViens[i, 7]}");
+                // Đọc tất cả dòng từ file SinhVien.txt
+                string[] lines = File.ReadAllLines("SinhVien.txt");
+
+                // Duyệt qua các dòng trong file để tìm thông tin sinh viên
+                foreach (var line in lines)
+                {
+                    string[] fields = line.Split('|');  // Tách các trường thông tin trong dòng
+
+                    // Tìm sinh viên có MSSV trùng khớp
+                    if (fields[0].Trim() == mssv)
+                    {
+                        // Lấy điểm trung bình từ file
+                        double diemTB = double.Parse(fields[6]);
+
+                        // Quy đổi điểm trung bình từ hệ 10 sang hệ 4
+                        double diemHe4 = XetDiemCot4(diemTB);
+                        Console.WriteLine($"MSSV: {fields[0]}");
+                        Console.WriteLine($"Lớp: {fields[1]}");
+                        Console.WriteLine($"Họ tên: {fields[2]}");
+                        Console.WriteLine($"Ngày sinh: {fields[3]}");
+                        Console.WriteLine($"Nơi sinh: {fields[4]}");
+                        Console.WriteLine($"Giới tính: {fields[5]}");
+                        Console.WriteLine($"Điểm trung bình: {fields[6]}");
+                        Console.WriteLine($"Điểm rèn luyện: {fields[7]}");
+                        Console.WriteLine($"Điểm hệ 4: {diemHe4}");
+                        return;  // Nếu tìm thấy sinh viên thì kết thúc hàm
+                    }
+                }
+
+                // Nếu không tìm thấy MSSV trong file
+                Console.WriteLine("Không tìm thấy sinh viên với MSSV này trong file.");
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi khi đọc file
+                Console.WriteLine("Lỗi khi đọc dữ liệu từ file: " + ex.Message);
             }
         }
 
