@@ -689,7 +689,7 @@ namespace QuanLySinhVienUEH
     Console.Clear();
     Console.WriteLine(">>> Danh Sách Sinh Viên Được Xét Học Bổng <<<");
 
-    var sinhViens = XemDanhSachSinhVien();
+    var sinhViens = DocFileSinhVien();
 
     // Sắp xếp danh sách theo tiêu chí: điểm trung bình trước, sau đó đến điểm rèn luyện
     sinhViens.Sort((a, b) =>
