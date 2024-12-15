@@ -61,21 +61,62 @@ namespace QuanLySinhVienUEH
             }
         }
 
-        static void ShowMenu()
+               static void ShowMenu()
         {
             Console.Clear();
-            Console.WriteLine("===============================================");
-            Console.WriteLine("            QUẢN LÝ SINH VIÊN UEH");
-            Console.WriteLine("===============================================");
-            Console.WriteLine("1. Thêm Sinh Viên");
-            Console.WriteLine("2. Xem Thông Tin Sinh Viên");
-            Console.WriteLine("3. Sửa Thông Tin Sinh Viên");
-            Console.WriteLine("4. Xóa Sinh Viên");
-            Console.WriteLine("5. Xuất Danh Sách Học Bổng");
-            Console.WriteLine("6. Xét Loại Tốt Nghiệp");
-            Console.WriteLine("7. Thoát Khỏi Hệ Thống");
-            Console.WriteLine("===============================================");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+
+            string title = @"
+   ___                      _            ____  _       _      __     ___              _   _ _____ _   _ 
+  / _ \ _   _  __ _ _ __   | |   _   _  / ___|(_)_ __ | |__   \ \   / (_) ___ _ __   | | | | ____| | | |
+ | | | | | | |/ _` | '_ \  | |  | | | | \___ \| | '_ \| '_ \   \ \ / /| |/ _ \ '_ \  | | | |  _| | |_| |
+ | |_| | |_| | (_| | | | | | |__| |_| |  ___) | | | | | | | |   \ V / | |  __/ | | | | |_| | |___|  _  |
+  \__\_\\__,_|\__,_|_| |_| |_____\__, | |____/|_|_| |_|_| |_|    \_/  |_|\___|_| |_|  \___/|_____|_| |_|
+                                 |___/                                                                  
+";
+            int windowWidth = Console.WindowWidth;
+
+            // Set color for the title
+            Console.ForegroundColor = ConsoleColor.Yellow;
+
+            // Split the title into lines and center them
+            foreach (var line in title.Split('\n'))
+            {
+                int spacesToAdd = (windowWidth - line.Length) / 2;
+                Console.WriteLine(new string(' ', spacesToAdd) + line);
+            }
+
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("========================================================================================================================");
+            Console.ResetColor();
+            Console.WriteLine();
+
+            // Menu options - Center each line
+            string[] menuOptions = new string[]
+            {
+        "1. Thêm Sinh Viên",
+        "2. Xem Thông Tin Sinh Viên",
+        "3. Sửa Thông Tin Sinh Viên",
+        "4. Xóa Sinh Viên",
+        "5. Xuất Danh Sách Học Bổng",
+        "6. Xét Loại Tốt Nghiệp",
+        "7. Thoát Khỏi Hệ Thống"
+            };
+
+            Console.ForegroundColor = ConsoleColor.White;
+            foreach (var option in menuOptions)
+            {
+                int spacesToAdd = (windowWidth - option.Length) / 2;
+                Console.WriteLine(new string(' ', spacesToAdd) + option);
+            }
+
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine();
+
+            Console.WriteLine("========================================================================================================================");
+            Console.ResetColor();
         }
+
 
 
         /// <summary>
